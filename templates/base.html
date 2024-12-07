@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+
+    </head>
+    <body>
+        <h1 style="color: darkcyan;">Hello Passenger</h1>
+
+        <form action="/articles/">
+            <input type="text" name="q" />
+            <input type="submit" />
+        </form>
+
+        {% block content %}
+        {% endblock content %}
+        <br>
+        <br>
+        <br>
+        <p><a href="/admin/">ADMIN</a></p>
+        <p><a href="{% url 'home' %}">HOME</a></p>
+        <p><a href="/create/">Create a new Article</a></p>
+        <p><a href="/login">login</a></p>
+    </body>
+
+
+    
+</html>

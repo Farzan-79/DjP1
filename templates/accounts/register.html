@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 style="color: blueviolet;">Register</h1>
+
+    {% if request.user.is_authenticated %}
+
+        <p>you are already logged in. please <a href="/logout/?next=/register/">Log Out</a> first to create another user</p>
+
+    {% else %}
+    <div style="margin: 30px;">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+    {% endif %}
+
+{% endblock content %}

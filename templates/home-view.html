@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="color: blueviolet;">Home</h1>
+
+<h2 title='this is the title'>{{ object.title }}!</h2>
+<h2 title="just some information">{{ object.content }} (id={{ object.id }})</h2>
+<p>and this is the first webpage that i've ever made and here's a random number: <br> {{ number }} </p>
+<h3>my important numbers are:</h3>
+    <ul style="color: aqua; background-color: gray;">
+        {% for x in object_list %}
+            <li><a href= '\articles\{{ x.id }}'> {{ x.title }} - {{ x.content }} </a></li>
+        {% endfor %}    
+    </ul>
+    
+{% endblock content %}
