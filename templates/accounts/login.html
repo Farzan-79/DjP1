@@ -14,13 +14,8 @@
     <form method='POST'> {% csrf_token %}
 
         <div style="margin-bottom: 10px;">
-            <input type='text' name='username' placeholder='Username' />
+            {{form.as_p}}
         </div>
-
-        <div style="margin-bottom: 10px;">
-            <input type='password' name='password' placeholder='Password' />
-        </div>
-        <div style="margin-bottom: 10px;"></div>
             <button type='submit'>login</button>
         </div>
         
