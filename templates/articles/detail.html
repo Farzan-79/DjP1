@@ -4,7 +4,11 @@
 
     <h1>You have entered the <span style="color: crimson;">articles</span> section (id= {{ object.id }})</h1>
     <h2>{{ object.title }}</h2>
-    <h3>{{ object.content }}</h3>
+    <h3>{{ object.content }}</h3> 
+    <p>this article was created at {{ object.created }}</p>
+    {% if object.updated and object.updated|date:'Y-m-d H:i' != object.created|date:'Y-m-d H:i' %}
+        <p>and was updated at {{ object.updated }}</p>
+    {% endif %}
 
 
 

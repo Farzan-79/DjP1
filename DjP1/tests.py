@@ -9,7 +9,7 @@ class DjP1Test (TestCase):
         try:
             validate_password(settings.SECRET_KEY)
         except ValidationError as e:
-            msg = f'Weak Secret Key: {e.messages}'
+            msg = f'Weak Secret Key("{settings.SECRET_KEY}"): {e.messages}.'
             self.fail(msg)
         except ImproperlyConfigured as e:
             msg = 'no secret key found'

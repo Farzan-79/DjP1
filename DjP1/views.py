@@ -3,6 +3,7 @@ import random
 from django.template.loader import render_to_string
 from articles.models import Article
 from django.shortcuts import render
+from django.conf import settings
 
 
 def home_view(request,*args, **kwargs):
