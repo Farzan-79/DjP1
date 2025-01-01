@@ -35,7 +35,7 @@ urlpatterns = [
     path('', home_view, name= 'home'),
     path('articles/', article_search, name= 'search'),
     path('create/', article_create_view),
-    path('articles/<slug:slug>/', articles_detail_view),
+    path('articles/<slug:slug>/', articles_detail_view, name= 'article-detail'),
     path('fu', wrong_view),
     path('admin/', admin.site.urls),
     path('login/', login_view),

@@ -48,7 +48,6 @@ def articles_detail_view(request, slug=None):
 
 @login_required
 def article_create_view(request):
-    print(request.user)
     form = ArticleForm(request.POST or None)
     context = {
         'form': form,

@@ -15,7 +15,7 @@
 
     {% else %}
         <p>your article is submited</p>
-        <a href="/articles/{{object.id}}">{{object.title}}</a>
+        <a href="{{ object.get_absolute_urls }}">{{object.title}}</a>
     {% endif %}
 
 {% endblock content %}

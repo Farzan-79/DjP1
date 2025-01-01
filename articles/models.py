@@ -3,6 +3,7 @@ import django.utils.timezone
 from django.db.models.signals import pre_save, post_save
 from .utils import slugify_article_instance
 from django.utils.text import slugify
+from django.urls import reverse
 
 # Create your models here.
 class Article(models.Model):
@@ -13,7 +14,8 @@ class Article(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def get_absolute_urls(self):
-        return f'/articles/{self.slug}'
+        #return f'/articles/{self.slug}'
+        return reverse('article-detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if self.slug is None or not self.slug.startswith(slugify(self.title)):
