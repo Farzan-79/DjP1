@@ -9,7 +9,7 @@
 <h3>my important numbers are:</h3>
     <ul style="color: aqua; background-color: gray;">
         {% for x in object_list %}
-            <li><a href= '\articles\{{ x.slug }}'> {{ x.title }} - {{ x.content }} </a></li>
+            <li><a href= '{{ x.get_absolute_urls }}'> {{ x.title }} - {{ x.content }} </a></li>
         {% endfor %}    
     </ul>
     

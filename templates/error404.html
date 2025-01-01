@@ -7,7 +7,7 @@
 <p>the available articles are </p>
 <ul>
     {% for x in object_list %}   
-        <li style="color: aqua; background-color: grey;"><a href="/articles/{{ x.slug }}">{{ x.title }}</a></li>
+        <li style="color: aqua; background-color: grey;"><a href="{{ x.get_absolute_urls }}">{{ x.title }}</a></li>
     {% endfor %}
 </ul>
 

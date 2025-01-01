@@ -12,6 +12,9 @@ class Article(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def get_absolute_urls(self):
+        return f'/articles/{self.slug}'
+
     def save(self, *args, **kwargs):
         if self.slug is None or not self.slug.startswith(slugify(self.title)):
             slugify_article_instance(self)
