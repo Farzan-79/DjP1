@@ -9,4 +9,5 @@ def slugify_article_instance(instance, save=False):
         uslug = f'{slug}-{n}'
         n += 1
     instance.slug = uslug
-    instance.save()
+    if save:
+        instance.save()

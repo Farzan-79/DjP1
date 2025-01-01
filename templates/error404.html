@@ -4,10 +4,10 @@
 
 <h1 style="color: red;">ERROR 404</h1>
 <h2 style="color: lightcoral;">page not found</h2>
-<p>the only available titles are </p>
+<p>the available articles are </p>
 <ul>
     {% for x in object_list %}   
-        <li style="color: aqua; background-color: grey;"><a href="/articles/{{ x.id }}">{{ x.title }}</a></li>
+        <li style="color: aqua; background-color: grey;"><a href="/articles/{{ x.slug }}">{{ x.title }}</a></li>
     {% endfor %}
 </ul>
 

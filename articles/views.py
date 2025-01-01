@@ -30,12 +30,12 @@ def article_search(request):
     
 
 
-def articles_detail_view(request, id=None):
+def articles_detail_view(request, slug=None):
     #article_obj = None
     
-    if id is not None:
+    if slug is not None:
         try:
-            article_obj = Article.objects.get(id=id)
+            article_obj = Article.objects.get(slug=slug)
         except Article.DoesNotExist:
             return render(request, 'error404.html',{'object_list': Article.objects.all()})
 
