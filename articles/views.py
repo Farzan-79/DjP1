@@ -1,32 +1,32 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-
+from django.db.models import Q
 from articles.forms import ArticleForm
 from articles.models import Article
 
 # Create your views here.
 def article_search(request):
     #print(request.GET)
-    query_dict = request.GET # this is a dictionary of all of the queries
-    query = query_dict.get('q')
-    article_object = None
-    print(query)
-    context ={
-        'object' : article_object,
-        'q' : query,
-        }
-    if query is not None:
-        try:
-            article_object = Article.objects.get(id=query)
-            context ={
-                'object' : article_object,
-                'q' : query,
-                }
-        except Article.DoesNotExist:
-            return render(request, 'articles/no-resault.html', context=context)
+    query = request.GET.get('q')
+    context = {
+        'object_list': Article.objects.none(),
+        'query': query,
+        'no_resault': False,
+        'too_short': False
+    }
+    if query is not None and len(query) >= 2:
+        lookup = Q(title__icontains= query) | Q(content__icontains= query)
+        qs = Article.objects.filter(lookup)
+        if qs.exists():
+            context['object_list']= qs
+        else:
+            context['no_resault'] = True
+    elif query is not None and len(query) < 2:
+        context['too_short'] = True
 
 
-    return render(request, 'articles/detail.html', context=context)
+
+    return render(request, 'articles/search.html', context=context)
     
 
 
