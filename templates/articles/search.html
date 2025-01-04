@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <form action="/articles/">
+        <input type="text", name="q">
+        <input type="submit">
+    </form>
+
     {% if no_resault %}
         <h3 style="color: red;">No Resault</h3>
         <p>no article with this ({{ query }}) exists</p>
@@ -10,9 +15,11 @@
                 <li><a href="{{ obj.get_absolute_urls }}">{{ obj.title }}</a></li>
             {% endfor %}
         </ol>
-    {% elif query is None %}
+    {% elif query is None or query == '' %}
         <p>search for your article in the box above</p>
     {% elif too_short %}
         <p>you must enter at least 2 characters</p>
+    {% else %}
+        <p>an error accured</p>
     {% endif %}
 {% endblock %}

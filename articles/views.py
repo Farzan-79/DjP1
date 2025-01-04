@@ -6,7 +6,6 @@ from articles.models import Article
 
 # Create your views here.
 def article_search(request):
-    #print(request.GET)
     query = request.GET.get('q')
     context = {
         'object_list': Article.objects.none(),
@@ -14,19 +13,28 @@ def article_search(request):
         'no_resault': False,
         'too_short': False
     }
-    if query is not None and len(query) >= 2:
-        lookup = Q(title__icontains= query) | Q(content__icontains= query)
-        qs = Article.objects.filter(lookup)
-        if qs.exists():
-            context['object_list']= qs
+    if query is not None:
+        if len(query) < 2:
+            context['too_short'] = True
         else:
-            context['no_resault'] = True
-    elif query is not None and len(query) < 2:
-        context['too_short'] = True
-
-
-
+            qs = Article.objects.search(query= query)
+            if qs.exists():
+                context['object_list']= qs
+            else:
+                context['no_resault']= True
+    
     return render(request, 'articles/search.html', context=context)
+
+    #if query is not None and len(query) >= 2:
+    #        qs = Article.objects.search(query)
+    #        if qs.exists():
+    #            context['object_list']= qs
+    #        else:
+    #            context['no_resault'] = True
+    #    elif query is not None and len(query) < 2:
+    #        context['too_short'] = True
+    #
+    #    return render(request, 'articles/search.html', context=context)
     
 
 
