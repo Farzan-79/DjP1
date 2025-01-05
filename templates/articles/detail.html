@@ -9,6 +9,7 @@
     {% if object.updated and object.updated|date:'Y-m-d H:i' != object.created|date:'Y-m-d H:i' %}
         <p>and was updated at {{ object.updated }}</p>
     {% endif %}
+    <p>Author: <span style="color: red;">{{ object.user }}</span></p>
 
 
 

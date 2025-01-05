@@ -6,6 +6,7 @@ from django.utils.text import slugify
 from django.urls import reverse
 from django.db.models import Q
 
+from django.conf import settings
 # Create your models here.
 
 class ArticleQuerySet(models.QuerySet):
@@ -23,12 +24,13 @@ class ArticleManager(models.Manager):
         return self.get_queryset().search(query= query)
 
 class Article(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank= True, null= True, on_delete= models.SET_NULL)
     title = models.CharField(max_length=15)
     content = models.TextField()
     slug = models.SlugField(unique=True, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    #publish = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    publish = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
     objects = ArticleManager()
 
