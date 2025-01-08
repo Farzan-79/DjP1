@@ -13,7 +13,7 @@ class Recipe(models.Model):
     active = models.BooleanField(default=True)
 
 class RecipeIngredients(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ings')
     name = models.CharField(max_length= 200)
     description = models.TextField(blank=True, null=True)
     quantity = models.CharField(max_length=50)
@@ -25,3 +25,7 @@ class RecipeIngredients(models.Model):
 
     def recipe_name(self):
         return self.recipe.name
+    
+class RecipeIngredientImage(models.Model):
+    ingredient = models.ForeignKey(RecipeIngredients, on_delete=models.CASCADE, related_name='image')
+    name = models.CharField(max_length=100)
