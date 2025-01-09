@@ -7,30 +7,30 @@ from django.conf import settings
 
 
 def home_view(request,*args, **kwargs):
-    random_number = random.randint(1,100)
-    #print(f'this is args: {args}, and this is kwargs: {kwargs}')
-    try:
-        article_queryset = Article.objects.all()
-        random_id = random.randint(6,9)
-        article_object = Article.objects.get(id=random_id)
+    #random_number = random.randint(1,100)
+    ##print(f'this is args: {args}, and this is kwargs: {kwargs}')
+    #try:
+    #    article_queryset = Article.objects.all()
+    #    random_id = random.randint(6,9)
+    #    article_object = Article.objects.get(id=random_id)
+#
+    #    context = { 
+    #        #'title': article_object.title,
+    #        #'content': article_object.content,
+    #        #'id': article_object.id,
+    #        'object' : article_object,
+    #        'number': random_number,
+    #        'object_list': article_queryset,
+    #    }
 
-        context = {
-            #'title': article_object.title,
-            #'content': article_object.content,
-            #'id': article_object.id,
-            'object' : article_object,
-            'number': random_number,
-            'object_list': article_queryset,
-        }
-
-        HTML_STRING = render_to_string('home-view.html', context=context)
+        HTML_STRING = render_to_string('home-view.html', context={})
         return HttpResponse(HTML_STRING)
-    except Article.DoesNotExist:
-        context = {'object_list': article_queryset}
-        #error404 = render_to_string('error404.html', context=context)
-        #return HttpResponse(error404)
-        return render(request, "error404.html", context=context)
-        
+    #except Article.DoesNotExist:
+    #    context = {'object_list': article_queryset}
+    #    #error404 = render_to_string('error404.html', context=context)
+    #    #return HttpResponse(error404)
+    #    return render(request, "error404.html", context=context)
+    #    
    
     
            

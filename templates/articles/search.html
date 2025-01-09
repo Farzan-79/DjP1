@@ -9,17 +9,25 @@
     {% if no_resault %}
         <h3 style="color: red;">No Resault</h3>
         <p>no article with this ({{ query }}) exists</p>
-    {% elif object_list %}
+    {% elif search_list %}
         <ol>
-            {% for obj in object_list %}
+            {% for obj in search_list %}
                 <li><a href="{{ obj.get_absolute_urls }}">{{ obj.title }}</a></li>
             {% endfor %}
         </ol>
     {% elif query is None or query == '' %}
-        <p>search for your article in the box above</p>
+        <p>search for your article in the box above<br> all of the available articles:</p>
+        <ul style="background-color: lightgrey;">
+            {% for obj in object_list %}
+                <li>
+                    <a href="{{ obj.get_absolute_urls }}">{{ obj.title }} - {{ obj.content }}</a>
+                </li>
+            {% endfor %}
+        </ul>
     {% elif too_short %}
         <p>you must enter at least 2 characters</p>
     {% else %}
         <p>an error accured</p>
     {% endif %}
+    <p><a href="/create/">Create a new Article</a></p>
 {% endblock %}

@@ -8,7 +8,8 @@ from articles.models import Article
 def article_search(request):
     query = request.GET.get('q')
     context = {
-        'object_list': Article.objects.none(),
+        'object_list': Article.objects.all(),
+        'search_list': Article.objects.none(),
         'query': query,
         'no_resault': False,
         'too_short': False
@@ -19,7 +20,7 @@ def article_search(request):
         else:
             qs = Article.objects.search(query= query)
             if qs.exists():
-                context['object_list']= qs
+                context['search_list']= qs
             else:
                 context['no_resault']= True
     

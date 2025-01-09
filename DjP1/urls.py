@@ -33,7 +33,7 @@ from accounts.views import(
 )
 urlpatterns = [
     path('', home_view, name= 'home'),
-    path('articles/', article_search, name= 'search'),
+    path('articles/', article_search, name= 'articles'),
     path('create/', article_create_view),
     path('articles/<slug:slug>/', articles_detail_view, name= 'article-detail'),
     path('fu', wrong_view),
@@ -41,4 +41,5 @@ urlpatterns = [
     path('login/', login_view),
     path('logout/', logout_view),
     path('register/', register_view)
+    #path('recipes/', recipe_view, name='recipes'),
 ]
