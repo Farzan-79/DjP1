@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from recipes.models import Recipe, RecipeIngredients
 from django.contrib.auth import login
+from django.core.exceptions import ValidationError
 
 # Create your tests here.
 
@@ -34,9 +35,16 @@ class ForeignKeyTest(TestCase):
     
     def test_user_ing(self):
         my_user = User.objects.get(username= 'a')
-        my_recipe = my_user.recipe_set.get(name= 'pancake')
+        my_recipe = my_user.recipe.get(name= 'pancake')
         my_ings = my_recipe.ings.all()
         ings = {ing.name for ing in my_ings}
+        self.assertEqual(ings, {'milk', 'sugar', 'butter'})
+
+    def test_user_ing_full(self):
+        user = get_user_model()
+        uss = self.user_a
+        ings = set(user.objects.get(id=1).recipe.values_list('ings__name', flat=True))
+        #print(ings)
         self.assertEqual(ings, {'milk', 'sugar', 'butter'})
 
     def test_ing_user(self):
@@ -54,6 +62,29 @@ class ForeignKeyTest(TestCase):
 
     def test_another(self):
         user = self.user_a
-        riids = user.recipe_set.all().values_list('ings__name', flat=True)
-        print(set(riids))
+        riids = user.recipe.all().values_list('ings__name', flat=True)
+        self.assertEqual(3,riids.count())
+
+    def test_invalid_unit(self):
+        invalids = ['grrr', 'nada', 'ggg']
+        for i in invalids:
+            with self.assertRaises(ValidationError):
+                ings = RecipeIngredients(
+                    name = 'n',
+                    recipe = self.recipe_a,
+                    quantity = 10,
+                    unit = i
+                )
+                ings.full_clean()
+
+    def test_valid_unit(self):
+        valids = ['g', 'oz', 'kilograms', 'grams']
+        for v in valids:
+            ings = RecipeIngredients(
+                name = 'n',
+                recipe = self.recipe_a,
+                quantity = 10,
+                unit = v
+            )
+            ings.full_clean()
 

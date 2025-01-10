@@ -1,10 +1,10 @@
 from django.db import models
 from django.conf import settings
-
+from .validators import validate_unit
 # Create your models here.
 
 class Recipe(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE, related_name='recipe')
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null= True)
     directions = models.TextField(blank=True, null=True)
@@ -17,7 +17,7 @@ class RecipeIngredients(models.Model):
     name = models.CharField(max_length= 200)
     description = models.TextField(blank=True, null=True)
     quantity = models.CharField(max_length=50)
-    unit = models.CharField(max_length=50)
+    unit = models.CharField(max_length=50, validators =[validate_unit])
     directions = models.TextField(blank= True, null= True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
