@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+
+from .utils import str_to_float
 from .validators import validate_unit
 # Create your models here.
 
@@ -17,11 +19,21 @@ class RecipeIngredients(models.Model):
     name = models.CharField(max_length= 200)
     description = models.TextField(blank=True, null=True)
     quantity = models.CharField(max_length=50)
+    float_quantity = models.FloatField(blank=True, null=True)
     unit = models.CharField(max_length=50, validators =[validate_unit])
     directions = models.TextField(blank= True, null= True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        qty = self.quantity
+        float_qty , success = str_to_float(qty)
+        if success:
+            self.float_quantity = float_qty
+        else:
+            self.float_quantity = None
+        super().save(*args, **kwargs)
 
     def recipe_name(self):
         return self.recipe.name

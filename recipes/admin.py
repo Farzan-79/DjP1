@@ -16,6 +16,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
 class RecipeIngredientsAdmin(admin.ModelAdmin):
     list_display = ['name', 'recipe_name']
+    readonly_fields = ['float_quantity']
 
 
 admin.site.register(RecipeIngredients, RecipeIngredientsAdmin)
