@@ -1,14 +1,21 @@
+from django.core.exceptions import ValidationError
+import pint
+from pint.errors import UndefinedUnitError
+from typing import Tuple
 from fractions import Fraction
-from typing import Union, Tuple
 
-def str_to_float(amount:str) -> (any, bool):
-    
-    success = False
-    num = amount
+def valid_unit(unit:str):
+    ureg = pint.UnitRegistry()
+    myUnit = str(ureg.parse_expression(unit).units)
     try:
-        num = float(sum(Fraction(s) for s in f'{num}'.split()))
+        return myUnit
     except:
-        pass
-    if isinstance(num, float):
-        success = True
-    return(num, success)
+        raise ValidationError('something went wrong in unit validation')
+
+def valid_qty(quantity):
+    qty = quantity
+    qty = float(sum(Fraction(x) for x in f'{qty}'.split()))
+    try:
+        return round(qty, 2)
+    except:
+        raise ValidationError('something went wrong in quantity validation')
