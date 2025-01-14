@@ -24,7 +24,7 @@ class ArticleManager(models.Manager):
         return self.get_queryset().search(query= query)
 
 class Article(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank= True, null= True, on_delete= models.SET_NULL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE)
     title = models.CharField(max_length=15)
     content = models.TextField()
     slug = models.SlugField(unique=True, blank=True, null=True)

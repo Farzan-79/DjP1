@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if not created %}
+    <div style="margin-top: 50px;">
+        
+        <form action=".", method="post">
+
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Recipe</button>
+
+        </form>
+
+    </div>
+    {% else %}
+        <h4>Your Recipe has been submited</h4>
+        <a href="{{ object.get_absolute_urls }}">{{object.name}} - {{object.description}}</a>       
+    {% endif %}
+
+
+{% endblock %}

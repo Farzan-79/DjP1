@@ -1,7 +1,10 @@
 from django.utils.text import slugify
 
 def slugify_article_instance(instance, save=False):
-    slug = slugify(instance.title)
+    try:
+        slug = slugify(instance.title)
+    except:
+        slug = slugify(instance.name)
     uslug = slug
     n = 1
     Klass = instance.__class__

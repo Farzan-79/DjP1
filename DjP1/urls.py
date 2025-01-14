@@ -31,15 +31,24 @@ from accounts.views import(
     logout_view,
     register_view,
 )
+
+from recipes.views import(
+    recipes_view,
+    recipe_detail_view,
+    recipe_create_view
+)
 urlpatterns = [
-    path('', home_view, name= 'home'),
-    path('articles/', article_search, name= 'articles'),
-    path('create/', article_create_view),
-    path('articles/<slug:slug>/', articles_detail_view, name= 'article-detail'),
+    path('', home_view, name='home'),
+    path('articles/', article_search, name='articles'),
+    path('create/', article_create_view),  # Move this above the slug path
+    path('articles/<slug:slug>/', articles_detail_view, name='article-detail'),
     path('fu', wrong_view),
     path('admin/', admin.site.urls),
     path('login/', login_view),
     path('logout/', logout_view),
-    path('register/', register_view)
+    path('register/', register_view),
+    path('recipes/', recipes_view, name='recipes'),
+    path('recipes/create/', recipe_create_view, name='recipe-create'),
+    path('recipes/<slug:slug>/', recipe_detail_view, name='recipe-detail')
     #path('recipes/', recipe_view, name='recipes'),
 ]

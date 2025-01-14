@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> You have entered the <span style="color: crimson;">Recipes</span> section</h2>
+    
+    <ol>    
+        {% for r in recipe_list %}
+            <li><a href="{{ r.get_absolute_urls }}">{{ r.name }} - {{ r.description }}</a></li>
+        {% endfor %}
+    </ol>
+    
+
+{% endblock %}

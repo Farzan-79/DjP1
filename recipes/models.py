@@ -1,5 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
+from articles.utils import slugify_article_instance
+from django.urls import reverse
 
 
 from .validators import validate_unit, validate_qty
@@ -14,6 +17,17 @@ class Recipe(models.Model):
     created = models.DateTimeField(auto_now_add= True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+    slug = models.SlugField(unique=True, blank= True, null= True)
+
+    def save(self, *args, **kwargs):
+        if self.slug is None or not self.slug.startswith(slugify(self.name)):
+            slugify_article_instance(self)
+        super().save(*args, **kwargs)
+
+    def get_absolute_urls(self):
+        return reverse('recipe-detail', kwargs= {'slug': self.slug})
+
+
 
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ings')

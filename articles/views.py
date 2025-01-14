@@ -62,7 +62,9 @@ def article_create_view(request):
         'form': form,
     }
     if form.is_valid():
-        article_object = form.save()
+        article_object = form.save(commit=False)
+        article_object.user = request.user
+        article_object.save()
         #title = form.cleaned_data.get('title')
         #content = form.cleaned_data.get('content')
         ## print(title,content)

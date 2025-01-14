@@ -11,7 +11,7 @@ class RecipeIngredientsInLine(admin.StackedInline):
 class RecipeAdmin(admin.ModelAdmin):
     inlines = [RecipeIngredientsInLine]
     list_display = ['name', 'user']
-    readonly_fields = ['created', 'updated']
+    readonly_fields = ['created', 'updated', 'slug']
     raw_id_fields = ['user']
 
 class RecipeIngredientsAdmin(admin.ModelAdmin):
