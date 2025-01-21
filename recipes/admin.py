@@ -5,7 +5,8 @@ from .models import Recipe, RecipeIngredients
 
 class RecipeIngredientsInLine(admin.StackedInline):
     model = RecipeIngredients
-    #fields = ['name', 'unit', 'quantity', 'directions']
+    exclude = ['float_qty']
+    readonly_fields = ['to_metric', 'to_imperial']
     extra = 0
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -16,7 +17,8 @@ class RecipeAdmin(admin.ModelAdmin):
 
 class RecipeIngredientsAdmin(admin.ModelAdmin):
     list_display = ['name', 'recipe_name']
-    #readonly_fields = ['float_quantity']
+    exclude = ['float_qty']
+    readonly_fields = ['to_metric', 'to_imperial']
 
 
 admin.site.register(RecipeIngredients, RecipeIngredientsAdmin)

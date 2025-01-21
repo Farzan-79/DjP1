@@ -3,6 +3,8 @@ from django.conf import settings
 from django.utils.text import slugify
 from articles.utils import slugify_article_instance
 from django.urls import reverse
+import pint
+from django.core.exceptions import ValidationError
 
 
 from .validators import validate_unit, validate_qty
@@ -35,16 +37,36 @@ class RecipeIngredients(models.Model):
     description = models.TextField(blank=True, null=True)
     quantity = models.CharField(max_length=50, validators=[validate_qty])
     unit = models.CharField(max_length=50, validators=[validate_unit])
+    float_qty = models.FloatField(blank=True, null=True)
     directions = models.TextField(blank= True, null= True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+        
+    def convert_units(self, system= 'mks'):
+        if self.float_qty is None:
+            return None
+        ureg = pint.UnitRegistry(system= system)
+        measurement = self.float_qty * ureg[self.unit]
+        print(measurement)
+        return measurement
+
+    def to_metric(self):
+        measurement = self.convert_units(system= 'mks')
+        print(measurement)
+        return measurement.to_base_units()
+    
+    def to_imperial(self):
+        measurement = self.convert_units(system= 'imperial')
+        print(measurement)
+        return measurement.to_base_units()
     
     def cleaned_qty_unit(self):
         self.quantity = valid_qty(self.quantity)
         self.unit = valid_unit(self.unit)
-        
-    
+        self.float_qty = valid_qty(self.quantity)
+        if self.float_qty is None:
+            raise ValidationError('float qty is None')
 
     def save(self, *args, **kwargs):
         self.cleaned_qty_unit()

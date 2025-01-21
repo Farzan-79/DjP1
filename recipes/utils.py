@@ -16,6 +16,6 @@ def valid_qty(quantity):
     qty = quantity
     qty = float(sum(Fraction(x) for x in f'{qty}'.split()))
     try:
-        return round(qty, 2)
+        return float(round(qty, 2))
     except:
         raise ValidationError('something went wrong in quantity validation')
