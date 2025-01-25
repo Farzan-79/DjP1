@@ -1,23 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if update and object.user != request.user %}
+        <h1>This is not your article to edit</h1>
+        <a href="{% url 'recipes:list' %}">back to articles</a>
+    {% elif create or update and request.user == object.user %}
 
-    {% if not created %}
-    <div style="margin-top: 50px;">
-        
-        <form action=".", method="post">
+        {% if create %}
+            <h1 style="color: blueviolet;">Create a new Recipe</h1>
+        {% elif update %}
+            <h1 style="color: blueviolet;">Edit your Recipe</h1>
+        {% endif %}
 
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Create Recipe</button>
+        {% if not message %}
+        <div style="margin-top: 50px;">
 
-        </form>
+            <form action=".", method="post">
 
-    </div>
-    {% else %}
-        <h4>Your Recipe has been submited</h4>
-        <a href="{{ object.get_absolute_urls }}">{{object.name}} - {{object.description}}</a>       
-    {% endif %}
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if update %}
+                    <button type="submit">Update Recipe</button>
+                {% else %}
+                    <button type="submit">Create Recipe</button>
+                {% endif %}
 
+            </form>
+
+        </div>
+        {% else %}
+            <h4>{{ message }}</h4>
+            <a href="{{ object.get_absolute_urls }}">{{object.name}}</a><br>
+            <a href="{% url 'recipes:list' %}">Back to Recipes</a>      
+        {% endif %}
+    {% endif %}    
 
 {% endblock %}

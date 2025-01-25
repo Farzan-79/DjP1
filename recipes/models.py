@@ -27,7 +27,7 @@ class Recipe(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_urls(self):
-        return reverse('recipe-detail', kwargs= {'slug': self.slug})
+        return reverse('recipes:detail', kwargs= {'slug': self.slug})
 
 
 
@@ -48,17 +48,14 @@ class RecipeIngredients(models.Model):
             return None
         ureg = pint.UnitRegistry(system= system)
         measurement = self.float_qty * ureg[self.unit]
-        print(measurement)
         return measurement
 
     def to_metric(self):
         measurement = self.convert_units(system= 'mks')
-        print(measurement)
         return measurement.to_base_units()
     
     def to_imperial(self):
         measurement = self.convert_units(system= 'imperial')
-        print(measurement)
         return measurement.to_base_units()
     
     def cleaned_qty_unit(self):

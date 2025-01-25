@@ -6,20 +6,28 @@ class ArticleForm(forms.ModelForm):
         model = Article
         fields = ['title', 'content']
 
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.get('instance')
+        super().__init__(*args, **kwargs)
+
     def clean_title(self):
         title = self.cleaned_data.get('title')
         qs = Article.objects.filter(title__iexact=title)
+        if self.instance:
+            qs = qs.exclude(id=self.instance.id)
         if qs.exists():
             raise forms.ValidationError(f"An article with the title '{title.lower()}' already exists.")
         return title
     
     def clean(self):
-        # this is tutorial example:
-        data = self.cleaned_data
-        #title = data.get('title')
-        #qs = Article.objects.filter(title__iexact=title)
-        #if qs.exists():
-        #    self.add_error('title',f"An article with the title '{title.lower()}' already exists.")
+        data = super().clean()
+        i = self.instance
+        title = data.get('title')
+        content = data.get('content')
+        if i:
+            if (i.title == title and
+                i.content == content):
+                raise forms.ValidationError('you haven\'t changed anything ')
         return data
         
         

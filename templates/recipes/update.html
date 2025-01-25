@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if not message %}
+        <div style="margin: 50px;">
+            <form action="." method="post">
+
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Update Recipe</button>
+
+            </form>
+        </div>
+    {% else %}
+        
+        <p>{{ message }}</p>
+        <a href="{{ object.get_absolute_urls }}">{{object.name}} - {{object.description}}</a>
+        <a href="{% url 'recipes:list' %}">Back to Recipes</a>
+
+    {% endif %}
+
+
+
+
+{% endblock %}

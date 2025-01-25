@@ -1,21 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 style="color: blueviolet;">Create a new Article</h1>
+{% if update and object.user != request.user %}
+    <h1>This is not your article to edit</h1>
+    <a href="{% url 'articles:list' %}">back to articles</a>
+{% elif create or update and request.user == object.user %}
 
-    {% if not created %}
+    {% if create %}
+        <h1 style="color: blueviolet;">Create a new Article</h1>
+    {% elif update %}
+        <h1 style="color: blueviolet;">Edit your Article</h1>
+    {% endif %}
+
+    {% if not message %}
 
         <div style="margin-top: 50px;">
             <form action="." method="POST"> 
                 {% csrf_token %}   
                 {{ form.as_p }}
-                <div style="margin-top: 5px;"><button type="submit">Create Article</button></div>
+                {% if update %}
+                    <div style="margin-top: 5px;"><button type="submit">Update Article</button></div>
+                {% else %}
+                    <div style="margin-top: 5px;"><button type="submit">Create Article</button></div>
+                {% endif %}
             </form>
         </div>
 
     {% else %}
-        <p>your article is submited</p>
-        <a href="{{ object.get_absolute_urls }}">{{object.title}}</a>
+
+        <p>{{ message }}</p>
+        <a href="{{ object.get_absolute_urls }}">{{object.title}}</a><br>
+        <a href=" {% url 'articles:list' %} ">Articles</a>
+
     {% endif %}
+
+{% endif %}
+
 
 {% endblock content %}

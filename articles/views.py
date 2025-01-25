@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from articles.forms import ArticleForm
 from articles.models import Article
 
 # Create your views here.
-def article_search(request):
+def article_view(request):
     query = request.GET.get('q')
     context = {
         'object_list': Article.objects.all(),
@@ -24,7 +24,7 @@ def article_search(request):
             else:
                 context['no_resault']= True
     
-    return render(request, 'articles/search.html', context=context)
+    return render(request, 'articles/articles.html', context=context)
 
     #if query is not None and len(query) >= 2:
     #        qs = Article.objects.search(query)
@@ -60,6 +60,7 @@ def article_create_view(request):
     form = ArticleForm(request.POST or None)
     context = {
         'form': form,
+        'create': True
     }
     if form.is_valid():
         article_object = form.save(commit=False)
@@ -71,4 +72,19 @@ def article_create_view(request):
         #article_object = Article.objects.create(title=title, content=content)
         context['object'] = article_object
         context['created'] = True
+        context['message'] = 'Article created successfully'
     return render(request, 'articles/create.html', context=context)
+
+@login_required
+def artice_update_view(request, slug= None):
+    obj = get_object_or_404(Article, slug= slug)
+    form = ArticleForm(request.POST or None, instance= obj)
+    context = {
+        'form': form,
+        'object': obj,
+        'update': True
+    }
+    if form.is_valid():
+        form.save()
+        context['message'] = 'Your Article has been updated successfully'
+    return render(request, 'articles/create.html', context)

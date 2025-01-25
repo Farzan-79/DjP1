@@ -25,7 +25,7 @@ class ArticleManager(models.Manager):
 
 class Article(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE)
-    title = models.CharField(max_length=15)
+    title = models.CharField(max_length=30)
     content = models.TextField()
     slug = models.SlugField(unique=True, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -36,7 +36,7 @@ class Article(models.Model):
 
     def get_absolute_urls(self):
         #return f'/articles/{self.slug}'
-        return reverse('article-detail', kwargs={'slug': self.slug})
+        return reverse('articles:detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if self.slug is None or not self.slug.startswith(slugify(self.title)):

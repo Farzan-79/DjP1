@@ -29,5 +29,5 @@
     {% else %}
         <p>an error accured</p>
     {% endif %}
-    <p><a href="/create/">Create a new Article</a></p>
+    <p><a href="{% url 'articles:create' %}">Create a new Article</a></p>
 {% endblock %}

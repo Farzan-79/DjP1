@@ -8,6 +8,9 @@
             <li><a href="{{ r.get_absolute_urls }}">{{ r.name }} - {{ r.description }}</a></li>
         {% endfor %}
     </ol>
+    <br><br>
+    <p>Want your recipe to be shown here?</p>
+    <a href="{% url 'recipes:create' %}">Create a new Recipe</a>
     
 
 {% endblock %}

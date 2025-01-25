@@ -6,7 +6,7 @@
 <h3>Ingredients:</h3>
 <ol>
     {% for i in recipe.ings.all %}
-        <li>{{i.name}} - {{i.quantity}} {{i.unit}}</li>
+        <li>{{i.name}} - {{i.quantity}} {{i.unit}} <p>({{ i.to_metric }}) - ({{ i.to_imperial }})</p></li>
     {% endfor %}
 </ol>
 <h3>Directions</h3>
@@ -14,6 +14,10 @@
 <p>recipe created at {{recipe.created}}</p> 
 {% if recipe.updated and recipe.updated|date:'Y-m-d H:i' != recipe.created|date:'Y-m-d H:i' %}
     <p>and was updated at {{recipe.updated}}</p>
+{% endif %}
+
+{% if recipe.user == request.user %}
+<a href="{% url 'recipes:update' slug=recipe.slug %}">Edit your Recipe</a>
 {% endif %}
 
 {% endblock %}

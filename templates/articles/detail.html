@@ -11,6 +11,12 @@
     {% endif %}
     <p>Author: <span style="color: red;">{{ object.user }}</span></p>
 
+    {% if object.user == request.user %}
+
+        <a href="{% url 'articles:update' slug=object.slug %}">Edit Article</a>
+
+    {% endif %}
+
 
 
 {% endblock content %}
