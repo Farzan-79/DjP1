@@ -73,7 +73,7 @@ def article_create_view(request):
         context['object'] = article_object
         context['created'] = True
         context['message'] = 'Article created successfully'
-    return render(request, 'articles/create.html', context=context)
+    return render(request, 'articles/create-update.html', context=context)
 
 @login_required
 def artice_update_view(request, slug= None):
@@ -87,4 +87,4 @@ def artice_update_view(request, slug= None):
     if form.is_valid():
         form.save()
         context['message'] = 'Your Article has been updated successfully'
-    return render(request, 'articles/create.html', context)
+    return render(request, 'articles/create-update.html', context)

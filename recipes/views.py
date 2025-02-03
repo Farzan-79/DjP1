@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from recipes.models import *
 from django.contrib.auth.decorators import login_required
-from .forms import RecipeForm
+from .forms import RecipeForm, RecipeIngredientsForm
+from django.forms.models import modelformset_factory
 
 # Create your views here.
 
@@ -38,20 +39,28 @@ def recipe_create_view(request):
         context['message'] = 'Your Recipe has been created successfully'
         context['object'] = recipe_object
     
-    return render(request, 'recipes/create.html', context=context)
+    return render(request, 'recipes/create-update.html', context=context)
 
 @login_required
 def recipe_update_view(request, slug=None):
-    obj = get_object_or_404(Recipe, slug=slug, user=request.user)
-    form = RecipeForm(request.POST or None, instance=obj)
+    obj = get_object_or_404(Recipe, slug=slug, user=request.user,)
+    form_r = RecipeForm(request.POST or None, instance=obj)
+    RecipeIngredientsFormSet = modelformset_factory(RecipeIngredients, RecipeIngredientsForm, extra=1)
+    form_i = RecipeIngredientsFormSet(request.POST or None, queryset = obj.ings.all())
     context = {
-        'form': form,
+        'form_r': form_r,
+        'form_i': form_i,
         'object': obj,
         'update': True
     }
-    if form.is_valid():
-        form.save()
+    if all([form_r.is_valid(), form_i.is_valid()]):
+        parent = form_r.save(commit=False)
+        parent.save()
+        for item in form_i:
+            child = item.save(commit=False)
+            child.recipe = parent
+            child.save()
+
         context['message']= 'Recipe Updated Successfully'
-        #return redirect(obj.get_absolute_urls())
-    return render(request, 'recipes/create.html', context=context)
+    return render(request, 'recipes/create-update.html', context=context)
     

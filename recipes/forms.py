@@ -30,3 +30,10 @@ class RecipeForm(forms.ModelForm):
                 directions == self.instance.directions):
                 raise forms.ValidationError('you haven\'t changed anything')
         return cleaned_data
+    
+class RecipeIngredientsForm(forms.ModelForm):
+    class Meta:
+        model = RecipeIngredients
+        fields = ['name', 'quantity', 'unit']
+
+
