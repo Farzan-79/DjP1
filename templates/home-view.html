@@ -1,11 +1,98 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
-<h1 style="color: blueviolet;">Home</h1>
-<br>
-<h2>Sections</h2>
-<h3><a href="{% url 'articles:list' %}">Articles</a></h3>
-<h3><a href="{% url 'recipes:list' %}">Recipes</a></h3>
 
-    
+
+<section class="my0 bg-light">
+<h1 class="text-center text-secondary lead display-1 my-5">The FreeFar Project</h1>
+</section>
+
+ <!-- sections' section -->
+<section class="my-0 cl1">
+    <h2 class="lead display-6 text-center text-light">Sections</h2>
+<div class="row my-1 align-items-strech justify-content-center g-3">
+
+    <div class="col-8 col-md-4">
+        <div class="card border-2 border-secondary h-100">
+            <div class="card-body text-center py-4 d-flex flex-column">
+                <h4 class="card-title text-secondary fw-bold">Articles</h4>
+                <p class="lead card-subtitle">Dive into the Article world</p>
+                <p class="card-text d-none d-md-block text-muted">You can read the existing Articles, or add your very own Article to the website</p>
+                <a href="{% url 'articles:list' %}" class="btn btn-lg btn-outline-secondary mt-auto">Go to Articles</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-8 col-md-4">
+        <div class="card border-2 border-secondary h-100">
+            <div class="card-body text-center py-4 d-flex flex-column">
+                <h4 class="card-title fw-bold text-secondary">Recipes</h4>
+                <p class="card-subtitle lead">Enter the World  of Taste</p>
+                <p class="card-text text-muted d-none d-md-block">You can see all the delicious Recipes, and even add your own</p>
+                <a href="{% url 'recipes:list' %}" class="btn btn-lg btn-outline-secondary mt-auto">Go to Recipes</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+</section>
+
+
+<!-- faq accordians -->
+<section id="faq" class="bg-light">
+    <div class="container-md">
+        <div class="text-center">
+            <h2 class="fw-bold text-secondary">FreeFar</h2>
+            <p class="lead text-muted">Some information about my teeny tiny project</p>
+        </div>
+
+        <div class="row my-5 justify-content-center align-items-center">
+            <div class="col-10 col-lg-5 d-flex justify-content-center align-items-center">
+                <img src="{% static 'img/Django.jpg' %}" class="img-fluid" 
+                     style="max-height: 400px; width: auto; object-fit: contain;" alt="Django">
+            </div>
+
+<!-- accordians -->
+            <div class="accordion col-10 col-lg-5" id="faq">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      What is this Project?
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse hide" data-bs-parent="#faq">
+                    <div class="accordion-body">
+                      This is my first ever project. I am trying to be a back-end developer and this is somehow a training ground for me. It's not much, but it's honest work 
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      What did you use to make this project?
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faq">
+                    <div class="accordion-body">
+                      I have mainly used Django famework for the Back-end stuff because of my acquaintance with Python. but i also used HTML and BootStrap on my templates.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      What have you included in this project?
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faq">
+                    <div class="accordion-body">
+                      as of now, I have 2 apps. both of them have CRUD features. users can sign up and login and logout and only logged in users can create articles or recipes and can edit only their own.
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock content %}

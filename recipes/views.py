@@ -29,7 +29,7 @@ def recipe_detail_view(request, slug=None):
 def recipe_create_view(request):
     form = RecipeForm(request.POST or None)
     context = {
-        'form': form,
+        'form_r': form,
         'create': True,
     }
     if form.is_valid():

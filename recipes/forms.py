@@ -2,6 +2,11 @@ from django import forms
 from recipes.models import RecipeIngredients, Recipe
 
 class RecipeForm(forms.ModelForm):
+    error_css_class = 'error-field'
+    required_css_class = 'required_field'
+    #name = forms.CharField(widget= forms.TextInput(attrs= {"placeholder": "Recipe name", "class": "m-3"}))
+    #description = forms.CharField(widget= forms.Textarea(attrs={"placeholder": "describe the food in a nutshel", "rows": "2"}))
+    #directions = forms.CharField(widget= forms.Textarea(attrs={"placeholder": "explain the steps", "rows": "4"}))
     class Meta:
         model = Recipe
         fields = ['name', 'description', 'directions']
@@ -9,6 +14,9 @@ class RecipeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.get('instance')
         super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({"placeholder": "Recipe name", "class": "m-3"})
+        self.fields['description'].widget.attrs.update({"placeholder": "describe the food in a nutshel", "rows": "2"})
+        self.fields['directions'].widget.attrs.update({"placeholder": "explain the steps", "rows": "4"})
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
@@ -32,6 +40,8 @@ class RecipeForm(forms.ModelForm):
         return cleaned_data
     
 class RecipeIngredientsForm(forms.ModelForm):
+    error_css_class = 'error-field'
+    required_css_class = 'required_field'
     class Meta:
         model = RecipeIngredients
         fields = ['name', 'quantity', 'unit']

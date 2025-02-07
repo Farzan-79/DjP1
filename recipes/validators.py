@@ -7,11 +7,12 @@ def validate_unit(unit: str):
     ureg = pint.UnitRegistry()
     try:
         return str(ureg.parse_expression(unit).units)
-    except (UndefinedUnitError, ZeroDivisionError):
+    except :
         raise ValidationError(f'{unit} is not a valid unit')
+    
 
 def validate_qty(quantity: str):
     try:
         return float(sum(Fraction(x) for x in f'{quantity}'.split()))
-    except (ZeroDivisionError, ValueError):
+    except :
         raise ValidationError(f'{quantity} is not a valid quantity')
