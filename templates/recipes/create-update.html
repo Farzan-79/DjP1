@@ -25,50 +25,7 @@
 
     {% if not message %}
         <div style="margin-top: 50px;">
-            <form action="." method="post">
-                {% csrf_token %}
-
-                <!-- recipe form -->
-                <div class="{% if form.form.required %}{{ form.required_css_class }}{% endif %} m-3">
-                    {% if form_r.non_field_errors %}
-                        <ul class="error">
-                            {% for error in form_r.non_field_errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    {% for field in form_r %}
-                        <div class="mb-2">
-                            {% if field.errors %}
-                                <div class="error">{{ field.errors }}</div>
-                            {% endif %}
-                            <strong>{{ field.label_tag }}</strong><br>
-                            {{ field }}<br>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <!-- ingredients form -->
-                {% if form_i %}
-                    <h3>Ingredients</h3>
-                    {{ form_i.management_form }}
-                    <div id="ingredient-forms">
-                        {% for form in form_i %}
-                            <div class="ingredient-form">
-                                {{ form.as_p }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div id="empty-form" class="hidden">{{ form_i.empty_form.as_p }}</div>
-                    <button type="submit" id="add-more">Add more Ingredients</button>
-                {% endif %}
-
-                {% if update %}
-                    <button type="submit">Update Recipe</button>
-                {% else %}
-                    <button type="submit">Create Recipe</button>
-                {% endif %}
-            </form>
+            {% include 'recipes/partials/forms.html' %}
         </div>
     {% else %}
         <h4>{{ message }}</h4>

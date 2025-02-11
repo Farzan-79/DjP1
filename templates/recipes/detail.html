@@ -2,22 +2,18 @@
 
 {% block content %}
 
-<h1 style="color: darkgreen;">{{recipe.name}}, {{recipe.description}}</h1>
-<h3>Ingredients:</h3>
-<ol>
-    {% for i in recipe.ings.all %}
-        <li>{{i.name}} - {{i.quantity}} {{i.unit}} <p>({{ i.to_metric }}) - ({{ i.to_imperial }})</p></li>
-    {% endfor %}
-</ol>
-<h3>Directions</h3>
-<p>{{ recipe.directions }}</p><br><br><br><br>
-<p>recipe created at {{recipe.created}}</p> 
-{% if recipe.updated and recipe.updated|date:'Y-m-d H:i' != recipe.created|date:'Y-m-d H:i' %}
-    <p>and was updated at {{recipe.updated}}</p>
-{% endif %}
+<div class="container-lg">
+    <!-- <div class="row justify-contents-center align-items-center"> -->
+        <!-- <div class="col"> -->
+            <h1 class="fw-bold text-center text-warning display-2">Recipe</h1>
+        <!-- </div> -->
+    <!-- </div> -->
+</div>
 
-{% if recipe.user == request.user %}
-<a href="{% url 'recipes:update' slug=recipe.slug %}">Edit your Recipe</a>
-{% endif %}
+
+
+<div hx-get="{{ recipe }}"  hx-trigger="load">
+<div class="htmx-indicator text-center fw-bold lead">Loading...</div>
+</div>
 
 {% endblock %}

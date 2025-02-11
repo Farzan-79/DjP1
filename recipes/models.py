@@ -28,6 +28,9 @@ class Recipe(models.Model):
 
     def get_absolute_urls(self):
         return reverse('recipes:detail', kwargs= {'slug': self.slug})
+    
+    def get_hx_urls(self):
+        return reverse('recipes:hx-detail', kwargs= {'slug': self.slug})
 
 
 

@@ -3,6 +3,8 @@ from recipes.models import *
 from django.contrib.auth.decorators import login_required
 from .forms import RecipeForm, RecipeIngredientsForm
 from django.forms.models import modelformset_factory
+from django.http import HttpResponse
+from django.urls import reverse
 
 # Create your views here.
 
@@ -14,16 +16,26 @@ def recipes_view(request):
     return render(request, 'recipes/recipes.html', context=context)
 
 def recipe_detail_view(request, slug=None):
+    hx_url = reverse('recipes:hx-detail', kwargs={'slug':slug})
+    context = {
+        'recipe' : hx_url
+    }
+
+    return render(request, 'recipes/detail.html', context=context)
+
+def recipe_detail_hx_view(request, slug=None): 
+    # this is so cool. it is powered by htmx. what i have done is: 1. the user gets to the detail url. 2- the url has a recipe name at top which loads instantly and also a loading under it that is actually just a text. 3- it tries to get data from THIS view, the hx-detail which the real content will be shown in its template, 4- so we are seeing the detail view, which has almost nothing in it but will load hx-detail view and show it to the user. 
     context = {}
     if slug is not None:
         try:
-            #recipe = Recipe.objects.get(slug=slug)
-            recipe = get_object_or_404(Recipe, slug=slug)  
-        except Recipe.MultipleObjectsReturned:
-            recipe = Recipe.objects.filter(slug=slug).first()
+            recipe = Recipe.objects.get(slug=slug)  
+        except:
+            recipe = None
+        if recipe is None:
+            return HttpResponse('not found')
         context['recipe'] = recipe
 
-    return render(request, 'recipes/detail.html', context=context)
+    return render(request, 'recipes/partials/detail.html', context=context)
 
 @login_required
 def recipe_create_view(request):
@@ -62,5 +74,8 @@ def recipe_update_view(request, slug=None):
             child.save()
 
         context['message']= 'Recipe Updated Successfully'
+    
+    if request.htmx:
+        return render(request, 'recipes/partials/forms.html', context=context)
     return render(request, 'recipes/create-update.html', context=context)
     
