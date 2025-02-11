@@ -23,7 +23,26 @@
                     <a href="{{ obj.get_absolute_urls }}">{{ obj.title }} - {{ obj.content }}</a>
                 </li>
             {% endfor %}
-        </ul>
+        </ul> 
+        <!-- basic bootstrap for later -->
+        <!-- <p>search for your article in the box above<br> all of the available articles:</p>
+        <div class="container-lg">
+            <div class="list-group">
+            {% for obj in object_list %}
+            <div class="row">
+                <div class="col-sm-8 col-lg-6 justify-content-start align-items-center mb-2">
+            <a href="{{ obj.get_absolute_urls }}" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-start">
+                <h5 class="mb-1">{{obj.title}}</h5>
+              </div>
+              <p class="mb-1">{{obj.content}}</p>
+              <small>author: {{ obj.user }}</small>
+            </a>
+        </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div> -->
     {% elif too_short %}
         <p>you must enter at least 2 characters</p>
     {% else %}

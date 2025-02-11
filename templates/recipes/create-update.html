@@ -1,28 +1,66 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if update and object.user != request.user %}
-        <h1>This is not your article to edit</h1>
-        <a href="{% url 'recipes:list' %}">back to articles</a>
-    {% elif create or update and request.user == object.user %}
 
-        {% if create %}
-            <h1 style="color: blueviolet;">Create a new Recipe</h1>
-        {% elif update %}
-            <h1 style="color: blueviolet;">Edit your Recipe</h1>
-        {% endif %}
+<style>
+    .hidden {
+        display: none;
+    }
+    .ingredient-form {
+        border-bottom: 1px solid black;
+        margin: 5px;
+    }
+</style>
 
-        {% if not message %}
+{% if update and object.user != request.user %}
+    <h1>This is not your article to edit</h1>
+    <a href="{% url 'recipes:list' %}">back to articles</a>
+{% elif create or update and request.user == object.user %}
+
+    {% if create %}
+        <h1 style="color: blueviolet;">Create a new Recipe</h1>
+    {% elif update %}
+        <h1 style="color: blueviolet;">Edit your Recipe</h1>
+    {% endif %}
+
+    {% if not message %}
         <div style="margin-top: 50px;">
-
-            <form action=".", method="post">
-
+            <form action="." method="post">
                 {% csrf_token %}
-                {{ form_r.as_p }}
 
+                <!-- recipe form -->
+                <div class="{% if form.form.required %}{{ form.required_css_class }}{% endif %} m-3">
+                    {% if form_r.non_field_errors %}
+                        <ul class="error">
+                            {% for error in form_r.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% for field in form_r %}
+                        <div class="mb-2">
+                            {% if field.errors %}
+                                <div class="error">{{ field.errors }}</div>
+                            {% endif %}
+                            <strong>{{ field.label_tag }}</strong><br>
+                            {{ field }}<br>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- ingredients form -->
                 {% if form_i %}
                     <h3>Ingredients</h3>
-                    {{ form_i.as_p }}
+                    {{ form_i.management_form }}
+                    <div id="ingredient-forms">
+                        {% for form in form_i %}
+                            <div class="ingredient-form">
+                                {{ form.as_p }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div id="empty-form" class="hidden">{{ form_i.empty_form.as_p }}</div>
+                    <button type="submit" id="add-more">Add more Ingredients</button>
                 {% endif %}
 
                 {% if update %}
@@ -30,15 +68,37 @@
                 {% else %}
                     <button type="submit">Create Recipe</button>
                 {% endif %}
-
             </form>
-
         </div>
-        {% else %}
-            <h4>{{ message }}</h4>
-            <a href="{{ object.get_absolute_urls }}">{{object.name}}</a><br>
-            <a href="{% url 'recipes:list' %}">Back to Recipes</a>      
-        {% endif %}
-    {% endif %}    
+    {% else %}
+        <h4>{{ message }}</h4>
+        <a href="{{ object.get_absolute_urls }}">{{ object.name }}</a><br>
+        <a href="{% url 'recipes:list' %}">Back to Recipes</a>
+    {% endif %}
+{% endif %}
+
+<script>
+    const addMoreBtn = document.getElementById('add-more')
+    const totalNewForms = document.getElementById('id_form-TOTAL_FORMS')
+
+    addMoreBtn.addEventListener('click', add_new_form)
+    function add_new_form(event) {
+        if (event) {
+            event.preventDefault()
+        }
+        const currentIngredientForms = document.getElementsByClassName('ingredient-form')
+        let currentFormsCount = currentIngredientForms.length // + 1
+        // console.log(currentFormsCount) 
+
+        const ingredientForms = document.getElementById('ingredient-forms')
+        const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
+        copyEmptyFormEl.setAttribute('class', 'ingredient-form')
+        copyEmptyFormEl.setAttribute('id', `form-${currentFormsCount}`)
+        const regex = new RegExp('__prefix__', 'g')
+        copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormsCount)
+        totalNewForms.setAttribute('value', currentFormsCount + 1)
+        ingredientForms.append(copyEmptyFormEl)
+    }
+</script>
 
 {% endblock %}
