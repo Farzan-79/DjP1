@@ -18,7 +18,7 @@ def recipes_view(request):
 def recipe_detail_view(request, slug=None):
     hx_url = reverse('recipes:hx-detail', kwargs={'slug':slug})
     context = {
-        'recipe' : hx_url
+        'hx_form' : hx_url
     }
 
     return render(request, 'recipes/detail.html', context=context)
@@ -50,7 +50,8 @@ def recipe_create_view(request):
         recipe_object.save()
         context['message'] = 'Your Recipe has been created successfully'
         context['object'] = recipe_object
-    
+    if request.htmx:
+        return render(request, 'recipes/partials/forms.html', context=context) 
     return render(request, 'recipes/create-update.html', context=context)
 
 @login_required

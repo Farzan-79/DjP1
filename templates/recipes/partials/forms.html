@@ -2,48 +2,53 @@
   <form action="." method="post" hx-post="." hx-swap="outerHTML">
       {% csrf_token %}
 
-      {% if message %}
-        <p>{{message}}</p>
-      {% endif %}
+      {% if not message %}
+            <!-- recipe form -->
+            <div class="{% if form.form.required %}{{ form.required_css_class }}{% endif %} m-3">
+                {% if form_r.non_field_errors %}
+                    <ul class="error">
+                        {% for error in form_r.non_field_errors %}
+                            <li><div style="color: red;">{{ error }}</div></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% for field in form_r %}
+                    <div class="mb-2">
+                        {% if field.errors %}
+                            <div style="color: red;" class="error">{{ field.errors }}</div>
+                        {% endif %}
+                        <strong>{{ field.label_tag }}</strong><br>
+                        {{ field }}<br>
+                    </div>
+                {% endfor %}
+            </div>
 
-      <!-- recipe form -->
-      <div class="{% if form.form.required %}{{ form.required_css_class }}{% endif %} m-3">
-          {% if form_r.non_field_errors %}
-              <ul class="error">
-                  {% for error in form_r.non_field_errors %}
-                      <li>{{ error }}</li>
-                  {% endfor %}
-              </ul>
-          {% endif %}
-          {% for field in form_r %}
-              <div class="mb-2">
-                  {% if field.errors %}
-                      <div class="error">{{ field.errors }}</div>
-                  {% endif %}
-                  <strong>{{ field.label_tag }}</strong><br>
-                  {{ field }}<br>
-              </div>
-          {% endfor %}
-      </div>
+            <!-- ingredients form -->
+            {% if form_i %}
+                <h3>Ingredients</h3>
+                {{ form_i.management_form }}
+                <div id="ingredient-forms">
+                    {% for form in form_i %}
+                        <div class="ingredient-form">
+                            {{ form.as_p }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="empty-form" class="hidden">{{ form_i.empty_form.as_p }}</div>
+                <button type="submit" id="add-more">Add more Ingredients</button>
+            {% endif %}
 
-      <!-- ingredients form -->
-      {% if form_i %}
-          <h3>Ingredients</h3>
-          {{ form_i.management_form }}
-          <div id="ingredient-forms">
-              {% for form in form_i %}
-                  <div class="ingredient-form">
-                      {{ form.as_p }}
-                  </div>
-              {% endfor %}
-          </div>
-          <div id="empty-form" class="hidden">{{ form_i.empty_form.as_p }}</div>
-          <button type="submit" id="add-more">Add more Ingredients</button>
-      {% endif %}
+            {% if update %}
+                <button class="htmx-reverse" type="submit">Update Recipe</button>
+                <div class="htmx-indicator">Saving...</div>
+            {% else %}
+                <button class="htmx-reverse" type="submit">Create Recipe</button>
+                <div class="htmx-indicator">Saving...</div>
+            {% endif %}
 
-      {% if update %}
-          <button type="submit">Update Recipe</button>
-      {% else %}
-          <button type="submit">Create Recipe</button>
-      {% endif %}
+        {% else %}
+            <h4>{{ message }}</h4>
+            <a href="{{ object.get_absolute_urls }}">{{ object.name }}</a><br>
+            <a href="{% url 'recipes:list' %}">Back to Recipes</a>
+        {% endif %}
   </form>
