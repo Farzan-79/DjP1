@@ -35,7 +35,7 @@ def recipe_detail_hx_view(request, slug=None):
             return HttpResponse('not found')
         context['recipe'] = recipe
 
-    return render(request, 'recipes/partials/detail.html', context=context)
+    return render(request, 'recipes/partials/par-detail.html', context=context)
 
 @login_required
 def recipe_create_view(request):
@@ -51,7 +51,7 @@ def recipe_create_view(request):
         context['message'] = 'Your Recipe has been created successfully'
         context['object'] = recipe_object
     if request.htmx:
-        return render(request, 'recipes/partials/forms.html', context=context) 
+        return render(request, 'recipes/partials/par-form.html', context=context) 
     return render(request, 'recipes/create-update.html', context=context)
 
 @login_required
@@ -77,6 +77,6 @@ def recipe_update_view(request, slug=None):
         context['message']= 'Recipe Updated Successfully'
     
     if request.htmx:
-        return render(request, 'recipes/partials/forms.html', context=context)
+        return render(request, 'recipes/partials/par-form.html', context=context)
     return render(request, 'recipes/create-update.html', context=context)
     
