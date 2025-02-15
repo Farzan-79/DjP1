@@ -45,6 +45,12 @@ class RecipeIngredients(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+
+    def get_absolute_urls(self):
+        return self.recipe.get_absolute_urls()
+    
+    def get_hx_update_url(self):
+        return reverse('recipes:hx-ing-update', kwargs={'parent_slug':self.recipe.slug, 'id':self.id})
         
     def convert_units(self, system= 'mks'):
         if self.float_qty is None:

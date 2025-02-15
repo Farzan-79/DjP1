@@ -3,6 +3,13 @@
 {% block content %}
 
 <style>
+    .inline-elements {
+    display: flex;
+    align-items: center;
+    }
+    .inline-elements .display-inline {
+        margin-right: 10px; /* Adjust the spacing as needed */
+    }
     .hidden {
         display: none;
     }
@@ -24,17 +31,18 @@
     {% endif %}
 
     {% if not message %}
-        <div style="margin-top: 50px;">
-            {% include 'recipes/partials/par-form.html' %}
+        <div style="margin-top: 50px;" id="main-form">
+            {% include 'recipes/partials/par-recipe-form.html' %}
         </div>
-    {% else %}
+
+    <!-- {% else %}
         <h4>{{ message }}</h4>
         <a href="{{ object.get_absolute_urls }}">{{ object.name }}</a><br>
-        <a href="{% url 'recipes:list' %}">Back to Recipes</a>
+        <a href="{% url 'recipes:list' %}">Back to Recipes</a> -->
     {% endif %}
 {% endif %}
 
-<script>
+<!-- <script>
     document.addEventListener('click', (event)=>{
         if (event.target.id == 'add-more'){
             add_new_form(event)
@@ -59,6 +67,6 @@
         totalNewForms.setAttribute('value', currentFormsCount + 1)
         ingredientForms.append(copyEmptyFormEl)
     }
-</script>
+</script> -->
 
 {% endblock %}

@@ -32,11 +32,11 @@ class RecipeForm(forms.ModelForm):
         name = cleaned_data.get('name')
         description = cleaned_data.get('description')
         directions = cleaned_data.get('directions')
-        if self.instance:
-            if (name == self.instance.name and
-                description == self.instance.description and
-                directions == self.instance.directions):
-                raise forms.ValidationError('you haven\'t changed anything')
+        #if self.instance:
+        #    if (name == self.instance.name and
+        #        description == self.instance.description and
+        #        directions == self.instance.directions):
+        #        raise forms.ValidationError('you haven\'t change anything')
         return cleaned_data
     
 class RecipeIngredientsForm(forms.ModelForm):
