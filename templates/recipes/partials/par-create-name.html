@@ -1,0 +1,7 @@
+<form action="." method="post" hx-post="." hx-swap="outerHTML" id="create-name">
+    <!-- this is the form that will render out just the name field, then, if its valid, the create_view will give the other details to be filled -->
+    {% csrf_token %}
+    <h4>Choose the Recipe Name</h4>
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>

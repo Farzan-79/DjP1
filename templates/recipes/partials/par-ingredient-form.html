@@ -1,3 +1,5 @@
+<!-- the url will be coming from ingredient_update_view and is to determine if its create or edit -->
+ <!-- the data thats coming back (which is from par-ingredient if the form is valid) will replave this -->
 <form action="." method="post" hx-post="{% if url %}{{ url }}{% else %}.{% endif %}" hx-swap="outerHTML">
     <div class="my-1">
         {% csrf_token %}

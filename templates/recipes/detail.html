@@ -3,15 +3,12 @@
 {% block content %}
 
 <div class="container-lg">
-    <!-- <div class="row justify-contents-center align-items-center"> -->
-        <!-- <div class="col"> -->
-            <h1 class="fw-bold text-center text-warning display-2">Recipe</h1>
-        <!-- </div> -->
-    <!-- </div> -->
+    <h1 class="fw-bold text-center text-warning display-2">Recipe</h1>
 </div>
 
 
-
+<!-- on loading the page (which will be instant) it will get the par-detail template which will take some time to load
+ while it loads, the loading is being displayed -->
 <div hx-get="{{ hx_form_url }}"  hx-trigger="load">
 <div class="htmx-indicator text-center fw-bold">Loading...</div>
 </div>

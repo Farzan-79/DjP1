@@ -30,19 +30,24 @@
         <h1 style="color: blueviolet;">Edit your Recipe</h1>
     {% endif %}
 
-    {% if not message %}
+    <!-- if the recipe is being created, it will get the create name partial -->
+    {% if create %} 
+    <div style="margin-top: 50px;" id="main-form"></div>
+        {% include 'recipes/partials/par-create-name.html' %}
+    </div>
+
+    <!-- and if being updated, it will get the recipe form partial, the create will end up here too -->
+    {% elif update %}
         <div style="margin-top: 50px;" id="main-form">
             {% include 'recipes/partials/par-recipe-form.html' %}
         </div>
-
-    <!-- {% else %}
-        <h4>{{ message }}</h4>
-        <a href="{{ object.get_absolute_urls }}">{{ object.name }}</a><br>
-        <a href="{% url 'recipes:list' %}">Back to Recipes</a> -->
     {% endif %}
+
 {% endif %}
 
-<!-- <script>
+<!-- this is js, i wont use it now since htmx can do it better
+
+    <script>
     document.addEventListener('click', (event)=>{
         if (event.target.id == 'add-more'){
             add_new_form(event)

@@ -1,6 +1,25 @@
 from django import forms
 from recipes.models import RecipeIngredients, Recipe
 
+class RecipeCreateNameForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['name']
+    
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        qs = Recipe.objects.filter(name__iexact = name)
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError(f'a recipe with {name} as name already exists')
+        return name
+    
+class RecipeCreateDetailsForm(forms.ModelForm):
+    pass
+
+
+
 class RecipeForm(forms.ModelForm):
     error_css_class = 'error-field'
     required_css_class = 'required_field'
@@ -9,7 +28,7 @@ class RecipeForm(forms.ModelForm):
     #directions = forms.CharField(widget= forms.Textarea(attrs={"placeholder": "explain the steps", "rows": "4"}))
     class Meta:
         model = Recipe
-        fields = ['name', 'description', 'directions']
+        fields = ['name','description', 'directions']
 
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.get('instance')

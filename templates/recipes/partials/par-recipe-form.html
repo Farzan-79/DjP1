@@ -1,5 +1,5 @@
 
-  <form action="." method="post" hx-post="." hx-swap="outerHTML">
+  <form action="." method="post" hx-post="{% url 'recipes:update' slug=object.slug %}" hx-swap="outerHTML">
       {% csrf_token %}
 
       {% if not message %}
@@ -32,6 +32,7 @@
                     </div>
                 {% endfor %}
             </div>
+            
             <div id="ings-form" class=""></div>
             <!-- ingredients form 
             {% if form_i %}
@@ -58,8 +59,12 @@
                 <div class="htmx-indicator hxh">Saving...</div>
             {% endif %}
 
-        {% else %}
-            <h4>{{ message }}</h4>
+        {% elif message %}
+            {% if just_created %}
+                <h4>Recipe Created Successfully</h4>
+            {% else %}
+                <h4>{{ message }}</h4>
+            {% endif %}
             <a href="{{ object.get_absolute_urls }}">{{ object.name }}</a><br>
             <a href="{% url 'recipes:list' %}">Back to Recipes</a>
         {% endif %}
