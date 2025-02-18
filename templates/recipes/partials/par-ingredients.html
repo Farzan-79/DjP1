@@ -1,7 +1,9 @@
 <div class="my-1" id="ingredient-{{ object.id }}">
-    {{ object.name }} - {{ object.quantity }} {{ object.unit }}
-    <!-- this button will target this whole div. if its clicked, it will get the update url of THIS instance that is being shown right now
-     which is a form, and will replace this whole div, after that form (in par-ingredient-form) is submitted
-     the new data of this instance will come here, and will replace that whole form again -->
-    <button hx-get="{{ object.get_hx_update_url }}" hx-target="#ingredient-{{ object.id }}" hx-trigger="click" hx-swap="outerHTML">Edit</button>
+    <div class="border-bottom border-warning pb-1">
+        {{ object.name }} - {{ object.quantity }} {{ object.unit }}
+        <!-- this button will target this whole div. if its clicked, it will get the update url of THIS instance that is being shown right now
+         which is a form, and will replace this whole div, after that form (in par-ingredient-form) is submitted
+         the new data of this instance will come here, and will replace that whole form again -->
+        <button hx-get="{{ object.get_hx_update_url }}" hx-target="#ingredient-{{ object.id }}" hx-trigger="click" hx-swap="outerHTML">Edit</button>
+    </div>
 </div>

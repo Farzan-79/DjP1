@@ -23,32 +23,19 @@
                 {% endfor %}
             </div>
 
-
+            <!-- ingredients inline, can be added and edited dynamically -->
             <h3 class="mt-3">Ingredients</h3>
             <div class="border-top border-warning my-2">
                 {% for ingredient in object.ings.all %}
-                    <div class="border-bottom border-warning">
+                    <!-- <div class="border-bottom border-warning"> -->
                         {% include 'recipes/partials/par-ingredients.html' with object=ingredient %}
-                    </div>
+                    <!-- </div> -->
                 {% endfor %}
             </div>
             
-            <div id="ings-form" class=""></div>
-            <!-- ingredients form 
-            {% if form_i %}
-                <h3>Ingredients</h3>
-                {{ form_i.management_form }}
-                <div id="ingredient-forms">
-                    {% for form in form_i %}
-                        <div class="ingredient-form">
-                            {{ form.as_p }}
-                        </div>
-                    {% endfor %}
-                </div>
-                <div id="empty-form" class="hidden">{{ form_i.empty_form.as_p }}</div>
-                <button type="submit" id="add-more">Add more Ingredients</button>
-            {% endif %} -->
-
+            <!-- the div that will contain the new ings form: -->
+            <div id="ings-form" class=""></div> 
+            <!-- the button that gets the new form and adds if to the dive above -->
             <button hx-get="{{ create_ing_url }}" hx-trigger="click" hx-target="#ings-form" hx-swap="beforeend">Add Ingredient</button>
 
             {% if update %}

@@ -61,11 +61,13 @@ def recipe_create_view(request):
             'form_r' : RecipeForm(instance= new_recipe),
             'object' : new_recipe,
             'create' : True,
-            'just_created': True,
             'create_ing_url' : reverse('recipes:hx-ing-create', kwargs={'parent_slug': new_recipe.slug})
         }
         # with the new context, and that we know the saved form was htmx, we can load the par-recipe-form with the newly created form as its instance so the user can add details and ings to it
         if request.htmx:
+            # the commented out return is how headers work, im not using it because of what i want to happen, but the first arg is not impoortant
+            # the header is what does the work, the HX-Redirect gets a new url and shows it in the hx that was existing
+            # return HttpResponse("...", headers={'HX-Redirect': new_recipe.get_absolute_urls()})
             return render(request, 'recipes/partials/par-recipe-form.html', context=update_context)
         # just to make sure... this shouldnt be redirected but if somehow there was a problem with htmx, here it is:
         return redirect(reverse('recipes:update', kwargs={'slug': new_recipe}))
