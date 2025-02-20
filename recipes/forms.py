@@ -36,6 +36,11 @@ class RecipeForm(forms.ModelForm):
         self.fields['name'].widget.attrs.update({"placeholder": "Recipe name"})
         self.fields['description'].widget.attrs.update({"placeholder": "describe the food in a nutshel", "rows": "2"})
         self.fields['directions'].widget.attrs.update({"placeholder": "explain the steps", "rows": "4"})
+        for field in self.fields:
+            new_attrs = {
+                'id': f'recipe-{field}'
+            }
+            self.fields[str(field)].widget.attrs.update(new_attrs)
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
@@ -71,6 +76,7 @@ class RecipeIngredientsForm(forms.ModelForm):
         for field in self.fields:
             new_attrs={
                 "placeholder": f'Ingredient\'s {field}',
+                'id': f'ingredient-{field}'
                 # i should learn more about these below...
                 # "class": 'form-control',
                 # "hx-post": ".",

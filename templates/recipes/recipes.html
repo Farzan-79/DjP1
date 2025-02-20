@@ -5,7 +5,7 @@
     
     <ol>    
         {% for r in recipe_list %}
-            <li><a href="{{ r.get_absolute_urls }}">{{ r.name }} - {{ r.description }}</a></li>
+            <li><a href="{{ r.get_absolute_url }}">{{ r.name }} - {{ r.description }}</a></li>
         {% endfor %}
     </ol>
     <br><br>

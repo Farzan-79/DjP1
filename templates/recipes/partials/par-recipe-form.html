@@ -52,7 +52,7 @@
             {% else %}
                 <h4>{{ message }}</h4>
             {% endif %}
-            <a href="{{ object.get_absolute_urls }}">{{ object.name }}</a><br>
+            <a href="{{ object.get_absolute_url }}">{{ object.name }}</a><br>
             <a href="{% url 'recipes:list' %}">Back to Recipes</a>
         {% endif %}
   </form>

@@ -67,7 +67,7 @@ def recipe_create_view(request):
         if request.htmx:
             # the commented out return is how headers work, im not using it because of what i want to happen, but the first arg is not impoortant
             # the header is what does the work, the HX-Redirect gets a new url and shows it in the hx that was existing
-            # return HttpResponse("...", headers={'HX-Redirect': new_recipe.get_absolute_urls()})
+            # return HttpResponse("...", headers={'HX-Redirect': new_recipe.get_absolute_url()})
             return render(request, 'recipes/partials/par-recipe-form.html', context=update_context)
         # just to make sure... this shouldnt be redirected but if somehow there was a problem with htmx, here it is:
         return redirect(reverse('recipes:update', kwargs={'slug': new_recipe}))

@@ -69,9 +69,10 @@
                             </ul>
                         </li>
                         <li>
-                            <form class="d-flex" role="search" action="/pantry/articles/">
+                            <form class="d-flex position-relative" role="search" action="/search/" autocomplete="off" method="get" hx-get="/search/" hx-trigger="keyup changed delay:1000ms" hx-target="#hx-search-result" hx-swap="innerHTML">
                                 <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                <div id="hx-search-result"></div>
                             </form>
                         </li>
                     </ul>

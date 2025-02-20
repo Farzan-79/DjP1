@@ -34,7 +34,7 @@ class Article(models.Model):
 
     objects = ArticleManager()
 
-    def get_absolute_urls(self):
+    def get_absolute_url(self):
         #return f'/articles/{self.slug}'
         return reverse('articles:detail', kwargs={'slug': self.slug})
 

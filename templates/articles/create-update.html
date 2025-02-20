@@ -29,7 +29,7 @@
     {% else %}
 
         <p>{{ message }}</p>
-        <a href="{{ object.get_absolute_urls }}">{{object.title}}</a><br>
+        <a href="{{ object.get_absolute_url }}">{{object.title}}</a><br>
         <a href=" {% url 'articles:list' %} ">Articles</a>
 
     {% endif %}

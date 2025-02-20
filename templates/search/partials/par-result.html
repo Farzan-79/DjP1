@@ -1,0 +1,46 @@
+{% if no_result and not request.htmx %}
+    <h4>No Results Found</h4>
+{% elif not request.htmx %}
+    {% if articles %}
+        <h4>Articles:</h4>
+        <ul>
+            {% for object in articles %}
+                <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if recipes %}
+        <h4>Recipes:</h4>
+        <ul>
+            {% for object in recipes %}
+                <li><a href="{{ object.get_absolute_url }}">{{ object.name }} - {{ object.descriptions }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% elif request.htmx %}
+        {% if no_result %}
+            <div class="dropdown-menu p-2" role="status" aria-live="polite" style="position: absolute; width: 100%; top: 100%; left: 0;  display: none;"></div>
+        {% else %}
+            <div class="dropdown-menu p-2" role="status" aria-live="polite" style="position: absolute; width: 100%; top: 100%; left: 0;  display: block;">
+                {% if articles %}
+                    <h4>Articles:</h4>
+                    <ul>
+                        {% for object in articles %}
+                            <li><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% if recipes %}
+                    <h4>Recipes:</h4>
+                    <ul>
+                        {% for object in recipes %}
+                            <li><a href="{{ object.get_absolute_url }}">{{ object.name }} - {{ object.descriptions }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <a class="btn btn-outline-secondary mt-2" href="/search/?q={{request.GET.q}}">View All</a>
+            </div>
+        {% endif %}
+
+
+{% endif %}

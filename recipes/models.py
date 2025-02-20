@@ -5,11 +5,27 @@ from articles.utils import slugify_article_instance
 from django.urls import reverse
 import pint
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 
 from .validators import validate_unit, validate_qty
 from .utils import valid_unit, valid_qty
 # Create your models here.
+
+class RecipeQuerySet(models.QuerySet):
+    def search(self, query= None):
+        if query is None or query == "":
+            return self.none()
+        lookups = Q(name__icontains= query) | Q(description__icontains= query)
+        return self.filter(lookups)
+
+class RecipeManager(models.Manager):
+    def get_queryset(self):
+        return RecipeQuerySet(self.model, using=self._db)
+    
+    def search(self, query= None):
+        return self.get_queryset().search(query= query)
+
 
 class Recipe(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete= models.CASCADE, related_name='recipe')
@@ -21,16 +37,24 @@ class Recipe(models.Model):
     active = models.BooleanField(default=True)
     slug = models.SlugField(unique=True, blank= True, null= True)
 
+    objects = RecipeManager()
+
     def save(self, *args, **kwargs):
         if self.slug is None or not self.slug.startswith(slugify(self.name)):
             slugify_article_instance(self)
         super().save(*args, **kwargs)
 
-    def get_absolute_urls(self):
+    def get_absolute_url(self):
         return reverse('recipes:detail', kwargs= {'slug': self.slug})
     
-    def get_hx_urls(self): #the partial
+    def get_hx_url(self): #the partial
         return reverse('recipes:hx-detail', kwargs= {'slug': self.slug})
+    
+    def get_update_url(self):
+        return reverse('recipes:update', kwargs={'slug': self.slug})
+    
+    def get_delete_url(self):
+        return reverse('recipes:delete', kwargs={'slug': self.slug})
 
 
 
@@ -46,8 +70,8 @@ class RecipeIngredients(models.Model):
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
-    def get_absolute_urls(self): #of its recipe
-        return self.recipe.get_absolute_urls()
+    def get_absolute_url(self): #of its recipe
+        return self.recipe.get_absolute_url()
     
     def get_hx_update_url(self): # of the form that will edit this instance
         return reverse('recipes:hx-ing-update', kwargs={'parent_slug':self.recipe.slug, 'id':self.id})

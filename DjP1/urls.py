@@ -21,38 +21,23 @@ from .views import (
     home_view,
     wrong_view
 )
-#from articles.views import (
-#    article_search,
-#    article_create_view,
-#    articles_detail_view,
-#)
+
 from accounts.views import(
     login_view,
     logout_view,
     register_view,
 )
 
-#from recipes.views import(
-#    recipes_view,
-#    recipe_detail_view,
-#    recipe_create_view,
-#    recipe_update_view
-#)
+from search.views import search_view
+
 urlpatterns = [
     path('pantry/recipes/', include('recipes.urls')),
     path('pantry/articles/', include('articles.urls')),
     path('', home_view, name='home'),
-    #path('articles/', article_search, name='articles'),
-    #path('create/', article_create_view),  # Move this above the slug path
-    #path('articles/<slug:slug>/', articles_detail_view, name='article-detail'),
+    path('search/', search_view, name='search'),
     path('fu', wrong_view),
     path('admin/', admin.site.urls),
     path('login/', login_view),
     path('logout/', logout_view),
     path('register/', register_view),
-    #path('recipes/', recipes_view, name='recipes'),
-    #path('recipes/create/', recipe_create_view, name='recipe-create'),
-    #path('recipes/<slug:slug>/', recipe_detail_view, name='recipe-detail'),
-    #path('recipes/<slug:slug>/update', recipe_update_view, name='recipe-update')
-    #path('recipes/', recipe_view, name='recipes'),
 ]

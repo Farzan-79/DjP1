@@ -12,7 +12,7 @@
     {% elif search_list %}
         <ol>
             {% for obj in search_list %}
-                <li><a href="{{ obj.get_absolute_urls }}">{{ obj.title }}</a></li>
+                <li><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
             {% endfor %}
         </ol>
     {% elif query is None or query == '' %}
@@ -20,7 +20,7 @@
         <ul style="background-color: lightgrey;">
             {% for obj in object_list %}
                 <li>
-                    <a href="{{ obj.get_absolute_urls }}">{{ obj.title }} - {{ obj.content }}</a>
+                    <a href="{{ obj.get_absolute_url }}">{{ obj.title }} - {{ obj.content }}</a>
                 </li>
             {% endfor %}
         </ul> 
@@ -31,7 +31,7 @@
             {% for obj in object_list %}
             <div class="row">
                 <div class="col-sm-8 col-lg-6 justify-content-start align-items-center mb-2">
-            <a href="{{ obj.get_absolute_urls }}" class="list-group-item list-group-item-action">
+            <a href="{{ obj.get_absolute_url }}" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-start">
                 <h5 class="mb-1">{{obj.title}}</h5>
               </div>
