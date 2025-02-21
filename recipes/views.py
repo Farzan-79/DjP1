@@ -42,6 +42,38 @@ def recipe_detail_hx_view(request, slug=None):
         context['recipe'] = recipe
     return render(request, 'recipes/partials/par-detail.html', context=context)
 
+@login_required
+def recipe_delete_view(request, slug=None):
+    object = get_object_or_404(Recipe, slug=slug, user=request.user)
+    context = {
+        'object': object,
+    }
+    print(request)
+    if request.method == 'POST':
+        object.delete()
+        success_url = reverse('recipes:list')
+        return redirect(success_url)
+    
+    return render(request, 'recipes/delete.html', context=context)
+
+@login_required
+def recipe_ingredient_delete_view(request, parent_slug=None, id=None):
+    object = get_object_or_404(RecipeIngredients, id=id, recipe__slug=parent_slug, recipe__user=request.user)
+    context = {
+        'object': object,
+    }
+    print(request)
+    if request.method == 'POST':
+        print('yesyesyes%')
+        kwargs = {
+            'slug': parent_slug
+        }
+        object.delete()
+        success_url = reverse('recipes:detail', kwargs=kwargs)
+        return redirect(success_url)
+    
+    return render(request, 'recipes/ing-delete.html', context=context)
+
 
 @login_required
 def recipe_create_view(request):

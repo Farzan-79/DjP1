@@ -73,6 +73,9 @@ class RecipeIngredients(models.Model):
     def get_absolute_url(self): #of its recipe
         return self.recipe.get_absolute_url()
     
+    def get_delete_url(self):
+        return reverse('recipes:ing-delete', kwargs={'parent_slug':self.recipe.slug, 'id':self.id})
+    
     def get_hx_update_url(self): # of the form that will edit this instance
         return reverse('recipes:hx-ing-update', kwargs={'parent_slug':self.recipe.slug, 'id':self.id})
         

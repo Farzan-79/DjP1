@@ -15,5 +15,6 @@
 {% endif %}
 
 {% if recipe.user == request.user %}
-<a href="{% url 'recipes:update' slug=recipe.slug %}">Edit your Recipe</a>
+<a class="btn btn-outline-success" href="{{ recipe.get_update_url }}">Edit your Recipe</a>
+<a class="btn btn-outline-danger" href="{{ recipe.get_delete_url }}">Delete Recipe</a>
 {% endif %}

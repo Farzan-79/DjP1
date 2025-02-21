@@ -4,6 +4,7 @@
         <!-- this button will target this whole div. if its clicked, it will get the update url of THIS instance that is being shown right now
          which is a form, and will replace this whole div, after that form (in par-ingredient-form) is submitted
          the new data of this instance will come here, and will replace that whole form again -->
-        <button hx-get="{{ object.get_hx_update_url }}" hx-target="#ingredient-{{ object.id }}" hx-trigger="click" hx-swap="outerHTML">Edit</button>
+        <button class="btn btn-outline-primary" hx-get="{{ object.get_hx_update_url }}" hx-target="#ingredient-{{ object.id }}" hx-trigger="click" hx-swap="outerHTML">Edit</button>
+        <a href="{{object.get_delete_url}}" class="btn btn-outline-danger">Remove</a>
     </div>
 </div>

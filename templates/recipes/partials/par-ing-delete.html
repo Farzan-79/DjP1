@@ -1,0 +1,7 @@
+<!-- if action is set to "." the post method strips the id in the end, i should make it go expilitly to the url i want -->
+<form action="{{object.get_delete_url}}" method="POST">
+    {% csrf_token %}
+    <h1>Are you sure you want to Delete "{{object.name}}" ingredient?</h1>
+    <button class="btn btn-danger" type="submit">Yes, Delete!</button>
+    <a href="{{object.get_absolute_url}}" class="btn btn-primary">No.</a>
+</form>

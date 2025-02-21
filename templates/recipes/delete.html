@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user == object.user %}
+    {% include 'recipes/partials/par-delete.html' %}
+{% else %}
+    <h6>this is not your recipe</h6>
+    <a href="{{object.get_absolute_url}}">Get back to recipe page</a>
+{% endif %}
+
+{% endblock %}
