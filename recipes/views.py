@@ -44,34 +44,55 @@ def recipe_detail_hx_view(request, slug=None):
 
 @login_required
 def recipe_delete_view(request, slug=None):
-    object = get_object_or_404(Recipe, slug=slug, user=request.user)
+    try:
+        object = Recipe.objects.get(slug=slug, user=request.user)
+    except:
+        object = None
+    if object is None:
+        if request.htmx:
+            return HttpResponse('Not Found')
+        raise Http404
     context = {
         'object': object,
     }
-    print(request)
     if request.method == 'POST':
         object.delete()
         success_url = reverse('recipes:list')
+        if request.htmx:
+            headers = {
+                'HX-Redirect': success_url
+            }
+            return HttpResponse('success', headers=headers)
         return redirect(success_url)
     
+    if request.htmx:
+            return render(request, 'recipes/partials/par-delete.html', context=context)
     return render(request, 'recipes/delete.html', context=context)
 
 @login_required
 def recipe_ingredient_delete_view(request, parent_slug=None, id=None):
-    object = get_object_or_404(RecipeIngredients, id=id, recipe__slug=parent_slug, recipe__user=request.user)
+    try:
+        object = RecipeIngredients.objects.get(id=id, recipe__slug=parent_slug, recipe__user=request.user)
+    except:
+        object = None
+
+    if object is None:
+        if request.htmx:
+            return HttpResponse('not found')
+        raise Http404
+    
     context = {
         'object': object,
     }
-    print(request)
     if request.method == 'POST':
-        print('yesyesyes%')
-        kwargs = {
-            'slug': parent_slug
-        }
         object.delete()
-        success_url = reverse('recipes:detail', kwargs=kwargs)
+        if request.htmx:
+            return HttpResponse("")
+        success_url = reverse('recipes:detail', kwargs={'slug': parent_slug})
         return redirect(success_url)
     
+    if request.htmx:
+            return render(request, 'recipes/partials/par-ing-delete.html', context=context)
     return render(request, 'recipes/ing-delete.html', context=context)
 
 

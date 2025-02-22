@@ -1,7 +1,7 @@
 <!-- if action is set to "." the post method strips the id in the end, i should make it go expilitly to the url i want -->
-<form action="{{object.get_delete_url}}" method="POST">
+<form action="{{object.get_delete_url}}" method="POST" hx-post="{{object.get_delete_url}}" hx-target="#ingredient-{{ object.id }}" hx-swap="outerHTML" id="ing_delete_formm">
     {% csrf_token %}
-    <h1>Are you sure you want to Delete "{{object.name}}" ingredient?</h1>
-    <button class="btn btn-danger" type="submit">Yes, Delete!</button>
-    <a href="{{object.get_absolute_url}}" class="btn btn-primary">No.</a>
+    <p>Delete "{{object.name}}"?</p>
+    <button class="btn btn-danger btn-small" type="submit">Yes, Delete!</button>
+    <button class="btn btn-primary" type="button" hx-get="{{object.get_delete_url}}" hx-target="#ing_delete_formm" hx-swap="delete" hx-trigger="click">No.</button>
 </form>

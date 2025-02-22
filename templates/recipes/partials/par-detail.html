@@ -16,5 +16,7 @@
 
 {% if recipe.user == request.user %}
 <a class="btn btn-outline-success" href="{{ recipe.get_update_url }}">Edit your Recipe</a>
-<a class="btn btn-outline-danger" href="{{ recipe.get_delete_url }}">Delete Recipe</a>
+<!-- <a class="btn btn-outline-danger" href="{{ recipe.get_delete_url }}">Delete Recipe</a> -->
+<a class="btn btn-outline-danger" href="{{ recipe.get_delete_url }}" hx-get="{{ recipe.get_delete_url }}" hx-target="#recipe_delete" hx-trigger="click" hx-swap="innerHTMl">Delete Recipe</a>
+<div id="recipe_delete"></div>
 {% endif %}

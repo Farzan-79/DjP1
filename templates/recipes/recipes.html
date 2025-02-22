@@ -3,9 +3,7 @@
 {% block content %}
 <h2> You have entered the <span style="color: crimson;">Recipes</span> section</h2>
     
-    {% if delete_message %}
-        <h6 class="lead">Recipe Deleted Successfully</h6>
-    {% endif %}
+
     <ol>    
         {% for r in recipe_list %}
             <li><a href="{{ r.get_absolute_url }}">{{ r.name }} - {{ r.description }}</a></li>

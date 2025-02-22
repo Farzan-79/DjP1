@@ -1,6 +1,13 @@
-<form action="." method="post">
-    {% csrf_token %}
-    <h1>Are you sure you want to Delete "{{object.name}}" recipe?</h1>
-    <button class="btn btn-danger" type="submit">Yes, Delete!</button>
-    <a href="{{object.get_absolute_url}}" class="btn btn-primary">No.</a>
-</form>
+<div id="delete_form">
+    <form action="{{ object.get_delete_url }}" method="post">
+        {% csrf_token %}
+        <h1>Are you sure you want to Delete "{{object.name}}" recipe?</h1>
+        <button class="btn btn-danger" type="submit">Yes, Delete!</button>
+        <button class="btn btn-primary" 
+                type="button"
+                hx-get="{{object.get_delete_url}}"
+                hx-target="#delete_form" 
+                hx-swap="delete"
+                hx-trigger="click">No.</button>
+    </form>
+</div>

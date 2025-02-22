@@ -13,7 +13,9 @@
 
     {% if object.user == request.user %}
 
-        <a href="{% url 'articles:update' slug=object.slug %}">Edit Article</a>
+        <a href="{{ object.get_update_url }}" class="btn btn-outline-success">Edit Article</a>
+        <a href="{{ object.get_delete_url }}" hx-get="{{ object.get_delete_url }}" hx-target="#article_delete" hx-swap="innerHTML" hx-trigger="click" class="btn btn-outline-danger">Delete Article</a>
+        <div id="article_delete"></div>
 
     {% endif %}
 

@@ -1,0 +1,6 @@
+<form action="{{ object.get_delete_url }}" method="post" id="article_delete_form">
+    {% csrf_token %}
+    <h4>Are you sure you want to delete "{{object.title}}" article?</h4>
+    <button class="btn btn-danger" type="submit">Yes, DELETE</button>
+    <button class="btn btn-primary" type="button" hx-get="{{object.get_delete_url}}" hx-trigger="click" hx-target="#article_delete_form" hx-swap="delete">No</button>
+</form>

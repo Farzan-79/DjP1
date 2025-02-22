@@ -37,6 +37,12 @@ class Article(models.Model):
     def get_absolute_url(self):
         #return f'/articles/{self.slug}'
         return reverse('articles:detail', kwargs={'slug': self.slug})
+    
+    def get_delete_url(self):
+        return reverse('articles:delete', kwargs={'slug': self.slug})
+    
+    def get_update_url(self):
+        return reverse('articles:update', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if self.slug is None or not self.slug.startswith(slugify(self.title)):

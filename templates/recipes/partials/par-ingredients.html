@@ -5,6 +5,7 @@
          which is a form, and will replace this whole div, after that form (in par-ingredient-form) is submitted
          the new data of this instance will come here, and will replace that whole form again -->
         <button class="btn btn-outline-primary" hx-get="{{ object.get_hx_update_url }}" hx-target="#ingredient-{{ object.id }}" hx-trigger="click" hx-swap="outerHTML">Edit</button>
-        <a href="{{object.get_delete_url}}" class="btn btn-outline-danger">Remove</a>
+        <a href="{{object.get_delete_url}}" class="btn btn-outline-danger" hx-get="{{object.get_delete_url}}" hx-trigger="click" hx-target="#ing_delete_form{{object.id}}" hx-swap="innerHTML">Remove</a>
+        <div id="ing_delete_form{{object.id}}"></div>
     </div>
 </div>

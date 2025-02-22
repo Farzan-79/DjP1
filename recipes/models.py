@@ -58,6 +58,7 @@ class Recipe(models.Model):
 
 
 
+
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ings')
     name = models.CharField(max_length= 200)
@@ -75,7 +76,7 @@ class RecipeIngredients(models.Model):
     
     def get_delete_url(self):
         return reverse('recipes:ing-delete', kwargs={'parent_slug':self.recipe.slug, 'id':self.id})
-    
+        
     def get_hx_update_url(self): # of the form that will edit this instance
         return reverse('recipes:hx-ing-update', kwargs={'parent_slug':self.recipe.slug, 'id':self.id})
         

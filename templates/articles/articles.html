@@ -1,52 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form action="/pantry/articles/">
-        <input type="text", name="q">
-        <input type="submit">
-    </form>
 
-    {% if no_resault %}
-        <h3 style="color: red;">No Resault</h3>
-        <p>no article with this ({{ query }}) exists</p>
-    {% elif search_list %}
-        <ol>
-            {% for obj in search_list %}
-                <li><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
-            {% endfor %}
-        </ol>
-    {% elif query is None or query == '' %}
-        <p>search for your article in the box above<br> all of the available articles:</p>
-        <ul style="background-color: lightgrey;">
-            {% for obj in object_list %}
-                <li>
-                    <a href="{{ obj.get_absolute_url }}">{{ obj.title }} - {{ obj.content }}</a>
-                </li>
-            {% endfor %}
-        </ul> 
-        <!-- basic bootstrap for later -->
-        <!-- <p>search for your article in the box above<br> all of the available articles:</p>
-        <div class="container-lg">
-            <div class="list-group">
-            {% for obj in object_list %}
-            <div class="row">
-                <div class="col-sm-8 col-lg-6 justify-content-start align-items-center mb-2">
-            <a href="{{ obj.get_absolute_url }}" class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-start">
-                <h5 class="mb-1">{{obj.title}}</h5>
-              </div>
-              <p class="mb-1">{{obj.content}}</p>
-              <small>author: {{ obj.user }}</small>
-            </a>
-        </div>
-            </div>
-            {% endfor %}
-            </div>
-        </div> -->
-    {% elif too_short %}
-        <p>you must enter at least 2 characters</p>
-    {% else %}
-        <p>an error accured</p>
-    {% endif %}
+<h2> You have entered the <span style="color: crimson;">Articles</span> section</h2>
+
+    <ul style="background-color: lightgrey;">
+        {% for obj in object_list %}
+            <li>
+                <a href="{{ obj.get_absolute_url }}">{{ obj.title }} - {{ obj.content }}</a>
+            </li>
+        {% endfor %}
+    </ul> 
+
     <p><a href="{% url 'articles:create' %}">Create a new Article</a></p>
 {% endblock %}

@@ -1,10 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from articles.forms import ArticleForm
 from articles.models import Article
+from django.http import HttpResponse, Http404 ,HttpResponseRedirect
+from django.urls import reverse
 
-# Create your views here.
+
 def article_view(request):
     query = request.GET.get('q')
     context = {
@@ -25,19 +27,7 @@ def article_view(request):
                 context['no_resault']= True
     
     return render(request, 'articles/articles.html', context=context)
-
-    #if query is not None and len(query) >= 2:
-    #        qs = Article.objects.search(query)
-    #        if qs.exists():
-    #            context['object_list']= qs
-    #        else:
-    #            context['no_resault'] = True
-    #    elif query is not None and len(query) < 2:
-    #        context['too_short'] = True
-    #
-    #    return render(request, 'articles/search.html', context=context)
     
-
 
 def articles_detail_view(request, slug=None):
     #article_obj = None
@@ -88,3 +78,28 @@ def artice_update_view(request, slug= None):
         form.save()
         context['message'] = 'Your Article has been updated successfully'
     return render(request, 'articles/create-update.html', context)
+
+@login_required
+def article_delete_view(request, slug=None):
+    try:
+        object = Article.objects.get(slug=slug, user=request.user)
+    except:
+        object = None
+
+    if object == None:
+        if request.htmx:
+            return HttpResponse('not found')
+        raise Http404
+    
+    context = {
+        'object': object
+    }
+    
+    if request.method == 'POST':
+        object.delete()
+        success_url = reverse('articles:list')
+        return redirect(success_url)
+    
+    if request.htmx:
+        return render(request, 'articles/partials/par-delete.html', context)
+    return render(request, 'articles/delete.html', context)

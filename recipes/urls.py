@@ -16,11 +16,11 @@ urlpatterns=[
     path('', recipes_view, name= 'list'),
     path('create/', recipe_create_view, name= 'create'),
 
-    path('hx/<slug:parent_slug>/ing_update/<int:id>', ingredient_update_view, name='hx-ing-update'),
-    path('hx/<slug:parent_slug>/ing_update', ingredient_update_view, name='hx-ing-create'),
+    path('hx/<slug:parent_slug>/ing_update/<int:id>/', ingredient_update_view, name='hx-ing-update'),
+    path('hx/<slug:parent_slug>/ing_update/', ingredient_update_view, name='hx-ing-create'),
     path('hx/<slug:slug>/', recipe_detail_hx_view, name='hx-detail'),
 
-    path('<slug:parent_slug>/ing_delete/<int:id>', recipe_ingredient_delete_view, name='ing-delete'),    
+    path('<slug:parent_slug>/ing_delete/<int:id>/', recipe_ingredient_delete_view, name='ing-delete'),    
     path('<slug:slug>/delete/', recipe_delete_view, name='delete'),
     path('<slug:slug>/update/', recipe_update_view, name= 'update'),
     path('<slug:slug>/', recipe_detail_view, name= 'detail')
