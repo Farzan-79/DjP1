@@ -30,7 +30,7 @@ class Article(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
-    publish = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+    publish = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 
     objects = ArticleManager()
 
