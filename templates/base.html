@@ -1,41 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>FreeFar</title>
-        <style>
-            .hxh .htmx-indicator{
-                display: inline;
-            }
-            .htmx-request .htmx-reverse{
-                display: none;
-            }
-            .cl1{
-                background-color: rgb(191, 191, 191) !important;
-            }
-            .cl2{
-                background-color: rgb(102, 160, 162) !important;
-            }
-            .cl3{
-                background-color: gold;
-            }
-            section{
-                padding: 60px 0;
-            }
-            .custom-grid {
-              display: grid;
-              grid-template-columns: 1fr 1fr; /* Creates two equal columns */
-              gap: 0.5rem; /* Adjust spacing between items as needed */
-            }
-        </style>
+        <link rel="stylesheet" href="{% static 'css/shared/styles.css' %}">
         <!-- <p><a href="/login">LOGIN/LOGOUT</a></p> -->
         <!-- <p><a href="/admin/">ADMIN</a></p> -->
         <!-- <p><a href="{% url 'home' %}">HOME</a></p> -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
-
+        {% block head %}{% endblock head %}
     </head>
     <body>
         <nav class="navbar navbar-expand-md navbar-light bg-light">
