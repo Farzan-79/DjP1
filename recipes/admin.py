@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Recipe, RecipeIngredients
+from .models import Recipe, RecipeIngredients, RecipeImage
 
 # Register your models here.
+
+admin.site.register(RecipeImage)
 
 class RecipeIngredientsInLine(admin.StackedInline):
     model = RecipeIngredients
