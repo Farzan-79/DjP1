@@ -1,0 +1,9 @@
+{
+    "disks": [
+        {
+            "name": "freefar-files",
+            "mountTo": "uploads"
+        }
+    ]
+
+}
