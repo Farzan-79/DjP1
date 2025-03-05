@@ -1,3 +1,5 @@
+from pathlib import Path
+import time
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
@@ -108,7 +110,23 @@ class RecipeIngredients(models.Model):
 
     def recipe_name(self):
         return self.recipe.name
+
+
+def recipe_image_upload_handler(instance, filename):
+    fpath = Path(filename)
+    ext = fpath.suffix  # Includes the dot, e.g. ".jpg"
+    clean_name = fpath.stem  # Filename without extension
     
-class RecipeIngredientImage(models.Model):
-    ingredient = models.ForeignKey(RecipeIngredients, on_delete=models.CASCADE, related_name='image')
+    # Create organized path structure
+    path = Path("recipes") / f"recipe_{instance.recipe.slug}"
+    
+    # Final filename: originalname_timestamp.ext
+    new_filename = f"{clean_name}_{int(time.time())}{ext}"
+    
+    return str(path / new_filename)
+
+class RecipeImage(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='image')
     name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to=recipe_image_upload_handler)
+
