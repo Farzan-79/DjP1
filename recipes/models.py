@@ -128,5 +128,5 @@ def recipe_image_upload_handler(instance, filename):
 class RecipeImage(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='image')
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to=recipe_image_upload_handler)
+    image = models.ImageField(upload_to='recipes/')
 
