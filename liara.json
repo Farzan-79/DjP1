@@ -1,8 +1,8 @@
 {
-    "diskks": [
+    "disks": [
         {
-            "name": "freefar-files",
-            "mountTo": "fileUploads"
+            "name": "uploads",
+            "mountTo": "files"
         }
     ]
 
