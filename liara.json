@@ -2,7 +2,7 @@
     "disks": [
         {
             "name": "freefar-files",
-            "mountTo": "uploads"
+            "mountTo": "fileUploads"
         }
     ]
 
