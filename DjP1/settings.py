@@ -162,8 +162,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_ROOT = BASE_DIR / 'uploads'  # ✅ Matches your disk mount point
-MEDIA_URL = '/media/'  # Keep this as URL prefix
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
