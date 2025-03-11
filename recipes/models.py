@@ -118,11 +118,12 @@ def recipe_image_upload_handler(instance, filename):
     clean_name = fpath.stem  # Filename without extension
     
     # Create organized path structure
-    path = Path("recipes") / f"recipe_{instance.recipe.slug}"
+    path = 'media' / Path("recipes") / f"recipe_{instance.recipe.slug}"
     
     # Final filename: originalname_timestamp.ext
     new_filename = f"{clean_name}_{int(time.time())}{ext}"
-    
+    print(path)
+    print(new_filename)
     return str(path / new_filename)
 
 class RecipeImage(models.Model):
