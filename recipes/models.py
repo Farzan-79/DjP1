@@ -122,7 +122,8 @@ def recipe_image_upload_handler(instance, filename):
     
     # Final filename: originalname_timestamp.ext
     new_filename = f"{clean_name}_{int(time.time())}{ext}"
-    
+    print(path)
+    print(new_filename)
     return str(path / new_filename)
 
 class RecipeImage(models.Model):

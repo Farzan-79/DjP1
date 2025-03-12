@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # third party apps:
     'django_htmx',
+    'storages',
+    # internal apps:
     'articles',
     'recipes',
     'search',
@@ -157,13 +160,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+USE_S3 = str(os.environ.get('USE_S3')) == '1'
 
-STATIC_URL = 'static/'
+if USE_S3:
+    print('***use s3***')
+    from DjP1.cdn.conf import * # noqa
+    STATIC_ROOT = BASE_DIR / "staticfiles"  # Dummy value; required by Django.
+    STATIC_URL = 'static/'
+
+else:
+    print('***no s3***')
+    STATIC_URL = 'static/'
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    MEDIA_URL = 'media/'
+
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
-MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
