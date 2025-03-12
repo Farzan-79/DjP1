@@ -165,17 +165,35 @@ USE_S3 = str(os.environ.get('USE_S3')) == '1'
 if USE_S3:
     print('***use s3***')
     from DjP1.cdn.conf import * # noqa
+    STORAGES = {
+        "default": {
+            "BACKEND": "DjP1.cdn.backends.MediaRootS3Boto3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "DjP1.cdn.backends.StaticRootS3Boto3Storage",
+        }
+    }
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
     STATIC_ROOT = BASE_DIR / "staticfiles"  # Dummy value; required by Django.
-    STATIC_URL = 'static/'
+    MEDIA_ROOT = BASE_DIR / "mediafiles"  # Dummy value; required by Django.
+
 
 else:
     print('***no s3***')
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        }
+    }
     STATIC_URL = 'static/'
     STATIC_ROOT = BASE_DIR / "staticfiles"
     MEDIA_URL = 'media/'
-
-STATICFILES_DIRS = [BASE_DIR / "static"]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'files')
+    STATICFILES_DIRS = [BASE_DIR / "static"]
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 
 # Default primary key field type

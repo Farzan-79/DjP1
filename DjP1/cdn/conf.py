@@ -28,26 +28,8 @@ AWS_S3_ADDRESSING_STYLE = 'virtual'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.storage.c2.liara.space'
 
 
-# storage
-STORAGES = {
-    "default": {
-        "BACKEND": "DjP1.cdn.backends.MediaRootS3Boto3Storage",
-        "OPTIONS": {
-            "querystring_auth": True,  # 👈 Force signing
-            "signature_version": "s3v4",
-        }
-    },
-    "staticfiles": {
-        "BACKEND": "DjP1.cdn.backends.StaticRootS3Boto3Storage",
-        "OPTIONS": {
-            "querystring_auth": True,  # 👈 Force signing
-            "signature_version": "s3v4",
-        },
-    }
-}
+# storage are set in the settings
 
-#STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
-#MEDIA_URL  = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 
 
 
