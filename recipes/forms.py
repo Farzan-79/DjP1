@@ -1,5 +1,5 @@
 from django import forms
-from recipes.models import RecipeIngredients, Recipe
+from recipes.models import RecipeIngredients, Recipe, RecipeImage
 
 class RecipeCreateNameForm(forms.ModelForm):
     class Meta:
@@ -15,8 +15,10 @@ class RecipeCreateNameForm(forms.ModelForm):
             raise forms.ValidationError(f'a recipe with {name} as name already exists')
         return name
     
-class RecipeCreateDetailsForm(forms.ModelForm):
-    pass
+class RecipeImageForm(forms.ModelForm):
+    class Meta:
+        model = RecipeImage
+        fields = ['image']
 
 
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from recipes.models import *
 from django.contrib.auth.decorators import login_required
-from .forms import RecipeForm, RecipeIngredientsForm, RecipeCreateNameForm
+from .forms import RecipeForm, RecipeIngredientsForm, RecipeCreateNameForm, RecipeImageForm
 from django.forms.models import modelformset_factory
 from django.http import HttpResponse, Http404 ,HttpResponseRedirect
 from django.urls import reverse
@@ -202,3 +202,16 @@ def ingredient_update_view(request, parent_slug=None, id=None):
     return render(request, 'recipes/partials/par-ingredient-form.html', context=context)
     
     
+def recipe_image_upload_view(request, parent_slug=None):
+    try:
+        parent_recipe = Recipe.objects.get(slug=parent_slug)
+    except:
+        parent_recipe = None
+    if parent_recipe is None:
+        raise Http404
+    form = RecipeImageForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.recipe = parent_recipe
+        obj.save()
+    return render(request, "recipes/image-form.html", {"form":form})

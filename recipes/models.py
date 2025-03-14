@@ -1,17 +1,14 @@
-from pathlib import Path
-import time
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
-from articles.utils import slugify_article_instance
 from django.urls import reverse
 import pint
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 
-
+from articles.utils import slugify_article_instance
 from .validators import validate_unit, validate_qty
-from .utils import valid_unit, valid_qty
+from .utils import valid_unit, valid_qty, recipe_image_upload_handler
 # Create your models here.
 
 class RecipeQuerySet(models.QuerySet):
@@ -112,22 +109,8 @@ class RecipeIngredients(models.Model):
         return self.recipe.name
 
 
-def recipe_image_upload_handler(instance, filename):
-    fpath = Path(filename)
-    ext = fpath.suffix  # Includes the dot, e.g. ".jpg"
-    clean_name = fpath.stem  # Filename without extension
-    
-    # Create organized path structure
-    path = Path("recipes") / f"recipe_{instance.recipe.slug}"
-    
-    # Final filename: originalname_timestamp.ext
-    new_filename = f"{clean_name}_{int(time.time())}{ext}"
-    print(path)
-    print(new_filename)
-    return str(path / new_filename)
 
 class RecipeImage(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='image')
-    name = models.CharField(max_length=100)
     image = models.ImageField(upload_to=recipe_image_upload_handler)
 

@@ -3,6 +3,8 @@ import pint
 from pint.errors import UndefinedUnitError
 from typing import Tuple
 from fractions import Fraction
+from pathlib import Path
+import time
 
 def valid_unit(unit:str):
     ureg = pint.UnitRegistry()
@@ -19,3 +21,17 @@ def valid_qty(quantity):
         return float(round(qty, 2))
     except:
         raise ValidationError('something went wrong in quantity validation')
+    
+def recipe_image_upload_handler(instance, filename):
+    fpath = Path(filename)
+    ext = fpath.suffix  # Includes the dot, e.g. ".jpg"
+    clean_name = fpath.stem  # Filename without extension
+    
+    # Create organized path structure
+    path = Path("recipes") / f"recipe_{instance.recipe.slug}"
+    
+    # Final filename: originalname_timestamp.ext
+    new_filename = f"{clean_name}_{int(time.time())}{ext}"
+    print(path)
+    print(new_filename)
+    return str(path / new_filename)
