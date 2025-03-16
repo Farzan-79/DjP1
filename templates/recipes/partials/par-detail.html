@@ -1,6 +1,14 @@
 <!-- a partial that will get the recipe detail and gives it to the detail.html -->
 
 <h1 style="color: darkgreen;">{{recipe.name}}, {{recipe.description}}</h1>
+
+    <h3>Images:</h3>
+    {% for image in recipe.image.all %}
+        <img src="{{ image.image.url }}" 
+        alt="Recipe Image" 
+        style="max-width: 300px; margin: 10px;">
+    {% endfor %}
+
 <h3>Ingredients:</h3>
 <ol>
     {% for i in recipe.ings.all %}

@@ -1,0 +1,12 @@
+<div id="image-upload-form">
+    <p style="color: green;">Image uploaded successfully!</p>
+    <img src="{{ image.image.url }}" 
+    alt="Recipe Image" 
+    style="max-width: 300px; margin: 10px;">
+    <button hx-get="{{ object.get_image_upload_url }}" 
+            hx-trigger="click" 
+            hx-target="#image-upload-form" 
+            hx-swap="outerHTML">
+        Add Image
+    </button>
+</div>

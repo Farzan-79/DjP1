@@ -203,6 +203,9 @@ def ingredient_update_view(request, parent_slug=None, id=None):
     
     
 def recipe_image_upload_view(request, parent_slug=None):
+    template = "recipes/image-form.html"
+    if request.htmx:
+        template = "recipes/partials/par-image-upload-form.html"
     try:
         parent_recipe = Recipe.objects.get(slug=parent_slug)
     except:
@@ -214,4 +217,7 @@ def recipe_image_upload_view(request, parent_slug=None):
         obj = form.save(commit=False)
         obj.recipe = parent_recipe
         obj.save()
-    return render(request, "recipes/image-form.html", {"form":form})
+        # Instead of returning the whole form, return a success message
+        return render(request, "recipes/partials/par-image-upload-success.html", {"image": obj, "object":parent_recipe})
+
+    return render(request, template, {"form":form})

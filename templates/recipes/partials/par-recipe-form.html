@@ -21,7 +21,18 @@
                         {{ field }}<br>
                     </div>
                 {% endfor %}
+                
             </div>
+
+                <div id="image-upload-form">
+                    <button hx-get="{{ object.get_image_upload_url }}" 
+                            hx-trigger="click" 
+                            hx-target="#image-upload-form" 
+                            hx-swap="outerHTML">
+                        Add Image
+                    </button>
+                </div>            
+
 
             <!-- ingredients inline, can be added and edited dynamically -->
             <h3 class="mt-3">Ingredients</h3>

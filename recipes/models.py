@@ -54,6 +54,9 @@ class Recipe(models.Model):
     
     def get_delete_url(self):
         return reverse('recipes:delete', kwargs={'slug': self.slug})
+    
+    def get_image_upload_url(self):
+        return reverse('recipes:hx-image-upload', kwargs={'parent_slug': self.slug})
 
 
 
@@ -79,20 +82,20 @@ class RecipeIngredients(models.Model):
     def get_hx_update_url(self): # of the form that will edit this instance
         return reverse('recipes:hx-ing-update', kwargs={'parent_slug':self.recipe.slug, 'id':self.id})
         
-    def convert_units(self, system= 'mks'):
-        if self.float_qty is None:
-            return None
-        ureg = pint.UnitRegistry(system= system)
-        measurement = self.float_qty * ureg[self.unit]
-        return measurement
+    #def convert_units(self, system= 'mks'):
+    #    if self.float_qty is None:
+    #        return None
+    #    ureg = pint.UnitRegistry(system= system)
+    #    measurement = self.float_qty * ureg[self.unit]
+    #    return measurement
 
-    def to_metric(self):
-        measurement = self.convert_units(system= 'mks')
-        return measurement.to_base_units()
-    
-    def to_imperial(self):
-        measurement = self.convert_units(system= 'imperial')
-        return measurement.to_base_units()
+    #def to_metric(self):
+    #    measurement = self.convert_units(system= 'mks')
+    #    return measurement.to_base_units()
+    #
+    #def to_imperial(self):
+    #    measurement = self.convert_units(system= 'imperial')
+    #    return measurement.to_base_units()
     
     def cleaned_qty_unit(self):
         self.quantity = valid_qty(self.quantity)
