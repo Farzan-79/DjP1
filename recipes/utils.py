@@ -24,7 +24,7 @@ def valid_qty(quantity):
     
 def recipe_image_upload_handler(instance, filename):
     fpath = Path(filename)
-    ext = fpath.suffix  # Includes the dot, e.g. ".jpg"
+    ext = fpath.suffix.replace(" ","_")  # Includes the dot, e.g. ".jpg"
     clean_name = fpath.stem  # Filename without extension
     
     # Create organized path structure

@@ -1,15 +1,47 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from articles.forms import LoginForm
+from .forms import ProfileCompletionForm
+from .models import UserProfile
+from django.urls import reverse
 # Create your views here.
 
 def register_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('/login')
+        return redirect(reverse('accounts:login'))
     return render(request, 'accounts/register.html', {'form': form})
+
+
+def profile_view(request):
+    if request.user.is_authenticated:
+        context = {
+            'profile': request.user.profile
+        }
+        return render(request, 'accounts/profile.html', context)
+    else:
+        return redirect('/accounts/login/?next=/accounts/profile/')
+    
+def profile_completion_view(request):
+    try:
+        profile_obj = get_object_or_404(UserProfile, user=request.user)
+    except:
+        profile_obj = None
+
+    print(profile_obj)
+    form = ProfileCompletionForm(request.POST or None, request.FILES or None, instance=profile_obj)
+    context = {
+        'form': form
+    }
+    if form.is_valid():
+        profile = form.save(commit=False)
+        if not profile.user:
+            profile.user = request.user
+        profile.save()
+        return redirect(reverse('accounts:profile'))
+    return render(request, 'accounts/profile-complete.html', context)
+
 
 
 def login_view(request):
@@ -29,7 +61,21 @@ def login_view(request):
     else:
         form = AuthenticationForm(request)
         context['form'] = form
-    return render(request, 'accounts/formlogin.html', context = context)
+    return render(request, 'accounts/login.html', context = context)
+
+
+def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        next = request.GET.get('next', '/accounts/login/')
+        return redirect(next)
+    if request.htmx:
+        return render(request, 'accounts/partials/par-logout.html', {})
+    # if not request.htmx:
+    return render(request, 'accounts/logout.html', {})
+
+
+
 
 
     # (this was by using forms.form).
@@ -68,12 +114,4 @@ def login_view(request):
     #     return redirect(next)
     # return render(request, 'accounts/login.html', context=context)
 
-def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
-        next = request.GET.get('next', '/login/')
-        return redirect(next)
-    return render(request, 'accounts/logout.html', {})
-
-def log_view(request):
-    return render(request, 'accounts/logout.html', {})
+    

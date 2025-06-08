@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'articles',
     'recipes',
     'search',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -67,7 +68,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'DjP1.urls'
-LOGIN_URL = '/login'
+LOGIN_URL = '/accounts/login'
 
 TEMPLATES = [
     {

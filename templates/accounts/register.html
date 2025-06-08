@@ -6,7 +6,7 @@
 
     {% if request.user.is_authenticated %}
 
-        <p>you are already logged in. please <a href="/logout/?next=/register/">Log Out</a> first to create another user</p>
+        <p>you are already logged in. please <a href="{% url 'account:logout' %}?next={% url 'account:register' %}">Log Out</a> first to create another user</p>
 
     {% else %}
     <div style="margin: 30px;">

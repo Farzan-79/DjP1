@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Profile</h1>
+    <h2>Welcome {{ profile.user.username }}</h2>
+    {% if profile.picture %}
+        <h3>Profile Picture:</h3> <img src="{{profile.picture.url}}" alt="profile" style="max-width: 300px; margin: 10px;">
+    {% endif %}
+    <h3>First Name: </h3><p>{{ profile.first_name }}</p>
+    <h3>Last Name: </h3><p>{{ profile.last_name }}</p>
+    <h3>Bio: </h3><p>{{ profile.bio }}</p>
+    <h3>Email: </h3><p>{{ profile.email }}</p>
+    <a href="{% url 'accounts:profile-complete' %}">edit your profile</a>
+
+
+
+
+    <!-- the logout link, will get the logout page, or just the partial form if it is sent by htmx, and will put it in the field below -->
+    <p>Wanna <a href="{% url 'accounts:logout' %}" hx-get="{% url 'accounts:logout' %}" hx-target="#logout_confirmation" hx-swap="innerHTML">log out</a>?</p>
+    <p id="logout_confirmation"></p>
+{% endblock %}

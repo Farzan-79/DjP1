@@ -1,0 +1,13 @@
+<div id="logout_confirmation_form"> <!-- htmx form to logout -->
+    <form action="{% url 'accounts:logout' %}" method="post">
+        {% csrf_token %}
+        <p>are you sure you want to logout?</p>
+        <button type="submit"
+        class="btn btn-danger">Yes</button>
+        <button type="button"
+        hx-get="{% url 'accounts:logout' %}"
+        hx-target="#logout_confirmation_form"
+        hx-swap="delete"
+        class="btn btn-light">No</button> <!-- the No button, it will delete this form, and the hx-get is nothing, it is needed so i entered it -->
+    </form>
+</div>

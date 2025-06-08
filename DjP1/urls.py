@@ -35,13 +35,11 @@ from search.views import search_view
 urlpatterns = [
     path('pantry/recipes/', include('recipes.urls')),
     path('pantry/articles/', include('articles.urls')),
+    path('accounts/', include('accounts.urls')),
     path('', home_view, name='home'),
     path('search/', search_view, name='search'),
     path('fu', wrong_view),
     path('admin/', admin.site.urls),
-    path('login/', login_view),
-    path('logout/', logout_view),
-    path('register/', register_view),
 ]
 
 

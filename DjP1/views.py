@@ -23,8 +23,8 @@ def home_view(request,*args, **kwargs):
     #        'object_list': article_queryset,
     #    }
 
-        HTML_STRING = render_to_string('home-view.html', context={})
-        return HttpResponse(HTML_STRING)
+        
+        return render(request, 'home-view.html', context={})
     #except Article.DoesNotExist:
     #    context = {'object_list': article_queryset}
     #    #error404 = render_to_string('error404.html', context=context)

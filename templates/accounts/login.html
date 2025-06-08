@@ -2,6 +2,7 @@
 
 {% block content %}
 
+
 {% if message %}
     <ul>
         <li>
@@ -10,25 +11,18 @@
     </ul>
 {% endif %}
 {% if not request.user.is_authenticated %}
+<h1 style="color: blueviolet;">Login</h1>
 <div style="margin-top: 30px; margin-bottom: 30px;">
-    <form method='POST'> {% csrf_token %}
-
-        <div style="margin-bottom: 10px;">
-            {{form.as_p}}
-        </div>
-            <button type='submit'>login</button>
-        </div>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
         
-        {% if WUP %}
-            <p style="color: red;">{{ WUP }}</p>
-        {% endif %}
+        <button type="submit" class="btn btn-success">Login</button>
+        <a class="btn btn-light" href="{% url 'accounts:register' %}">Create an Account</a>
     </form>
-    
 </div>
 {% else %}
-    <h2>you are already logged in. would you like to <a href="/logout/">log out</a>?</h2>
+<h2>You are already logged in, here is your <a href="{% url 'accounts:profile'%}">Profile</a></h2>
 {% endif %}
-
-
 
 {% endblock %}
