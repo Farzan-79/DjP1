@@ -25,6 +25,10 @@ The project blends:
 
 This repository serves as a strong portfolio project, showing skill in handling complex relationships, dynamic forms, server-side validation, and full user interaction flows.
 
+## 🎥Demo Video 
+
+https://github.com/user-attachments/assets/f2d345f4-b65f-4d33-b520-d926289f6309
+
 ## 🚀 Key Features
 
 ### 🍽️ Recipes Module
@@ -178,26 +182,8 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## 🎥Demo Video 
-
-https://github.com/user-attachments/assets/f2d345f4-b65f-4d33-b520-d926289f6309
-
- 
 
 
-## 🏆 Why This Project Is a Strong Portfolio Piece
-
-This project highlights high-value backend engineering skills:
-
-✔ User authentication & authorization
-✔ Dynamic forms (HTMX)
-✔ Advanced validation & parsing logic
-✔ Complex model relationships
-✔ Clean UI without heavy JS
-✔ DRY, reusable, scalable architecture
-✔ Real-world CRUD patterns
-✔ Media handling
-✔ Search system
 
 
 ## 📄 License
